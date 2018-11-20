@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="author" content="Edcley José da Silva 032018 POS">
+	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	    <script src="./js/d3.v4.min.js"></script>
+	    <script src='./js/crossfilter.js'></script>
+	    <script src='./js/dc.js'></script>
+	    <script src='./js/dc.graph.js'></script>
+	    <script src="./js/jquery.min.js"></script>
+	    <script src="./js/bootstrap.min.js"></script>
+	    <script src="./js/nutesscript.js"></script>
+		<title></title>
+		<link rel="stylesheet" href="./css/dc.css">
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+					<h4>GERE DE TELECONSULTORIA</h4>
+					<div id="vis3"></div>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<h4>ORIGEM DA SOLICITAÇÃO</h4>
+					<div id="vis1"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>
+					CANAL DE COMUNICAÇÃO DE TELECONSULTORIA</h4>
+					<div id="vis2"></div>
+				</div>
+				
+				<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h4>CIAP DE TELECONSULTORIA</h4>
+					<div id="vis4"></div>
+				</div>-->
+				
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h4>MUNICÍPIO DE MAIORES NºS DE SOLICITAÇÃO</h4>
+					<div id="vis6"></div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<h4>MÊS DA SOLICITAÇÃO</h4>
+					<div id="vis8"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO</h4>
+					<div id="vis5"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>MUNICÍPIO DE ATENDIMENTO DO TELECONSULTOR</h4>
+					<div id="vis7"></div>
+				</div>
+				
+
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4>AREA DE TELECONSULTORIA</h4>
+					<div id="vis10"></div>
+				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+					<h4>NATUREZA DA SOLICITAÇÃO</h4>
+					<div id="vis9"></div>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4>OCUPAÇãO DO SOLICITANTE</h4>
+					<div id="vis11"></div>
+				</div>
+
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>TELECONSULTORIA RESOLVEU DÚVIDA</h4>
+					<div id="vis16"></div>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4>OCUPAÇãO DO TELECONSULTOR</h4>
+					<div id="vis12"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>TEMPO PARA RESPOSTAS EM HORAS</h4>
+					<div id="vis17"></div>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4>REGISTRADOR</h4>
+					<div id="vis13"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>STATUS</h4>
+					<div id="vis15"></div>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<h4>REGULADOR</h4>
+					<div id="vis14"></div>
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<h4>UF DA SOLICITAÇÃO</h4>
+					<div id="vis18"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
