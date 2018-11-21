@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="author" content="Edcley José da Silva 032018 POS">
+	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	    <script src="./js/d3.v4.min.js"></script>
+	    <script src='./js/crossfilter.js'></script>
+	    <script src='./js/dc.js'></script>
+	    <script src='./js/dc.graph.js'></script>
+	    <script src="./js/jquery.min.js"></script>
+	    <script src="./js/bootstrap.min.js"></script>
+	    <script src="./js/nutesscript.js"></script>
+	    <script src="./js/color-mixin.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/colorbrewer@1.0.0/colorbrewer.js"></script>
+		<title>TeleAtendimento</title>
+		<link rel="stylesheet" href="./css/dc.css">
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
+	</head>
+	<body background="./img/logo_nutes.png" >
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+				<div class="panel panel-default col-lg-5 col-md-5 col-sm-5 col-xs-5">
+					<h2 style="text-align: center">Tele Atendimento</h2>
+				</div>
+			</div>
+			
+			<div class="tabbable">
+		 	<ul class="nav nav-tabs">
+			  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">Informações Gerais do Teleatendimento</a></li>
+			  	<li style="background: white"><a href="#tab2"  data-toggle="tab">Detalhes do Teleconsultor</a></li>
+			  	<li style="background: white"><a href="#tab3"  data-toggle="tab">Sobre os Teleatendimentos</a></li>
+			</ul>
+			<div class="tab-content ">
+                <div class="tab-pane active" id="tab1">
+                  	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>ORIGEM DA SOLICITAÇÃO</h4>
+						<div id="vis1"></div>
+					</div>
+					<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5 panel panel-default">
+						<h4>CANAL DE COMUNICAÇÃO </h4>
+						<div id="vis2"></div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>NATUREZA DA SOLICITAÇÃO</h4>
+						<div id="vis9"></div>
+					</div>
+					
+                </div>
+                <div class="tab-pane " id="tab2">
+                	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>MUNICÍPIO DE ATENDIMENTO DO TELECONSULTOR</h4>
+						<div id="vis7"></div>
+					</div>
+                  	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO</h4>
+						<div id="vis5"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>TELECONSULTORIA RESOLVEU DÚVIDA</h4>
+						<div id="vis16"></div>
+					</div>
+                </div>
+                <div class="tab-pane" id="tab3">
+                  	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 panel panel-default">
+						<h4>TEMPO PARA RESPOSTAS EM HORAS</h4>
+						<div id="vis17"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>STATUS</h4>
+						<div id="vis15"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>UF DA SOLICITAÇÃO</h4>
+						<div id="vis18"></div>
+					</div>
+                </div>
+            </div>
+		</div>
+			<div class="row">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
+					<h4>GERE DE TELECONSULTORIA</h4>
+					<div id="vis3"></div>
+				</div>
+				
+				
+				<!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h4>CIAP DE TELECONSULTORIA</h4>
+					<div id="vis4"></div>
+				</div>-->
+				
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 panel panel-default">
+					<h4>MUNICÍPIO DE MAIORES NºS DE SOLICITAÇÃO</h4>
+					<div id="vis6"></div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default">
+					<h4>MÊS DA SOLICITAÇÃO</h4>
+					<div id="vis8"></div>
+				</div>
+				
+				
+				
+
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 panel panel-default">
+					<h4>AREA DE TELECONSULTORIA</h4>
+					<div id="vis10"></div>
+				</div>
+				
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 panel panel-default">
+					<h4>OCUPAÇãO DO SOLICITANTE</h4>
+					<div id="vis11"></div>
+				</div>
+
+				
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 panel panel-default">
+					<h4>OCUPAÇãO DO TELECONSULTOR</h4>
+					<div id="vis12"></div>
+				</div>
+				
+				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 panel panel-default">
+					<h4>REGISTRADOR</h4>
+					<div id="vis13"></div>
+				</div>
+				
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 panel panel-default">
+					<h4>REGULADOR</h4>
+					<div id="vis14"></div>
+				</div>
+				
+			</div>
+		</div>
+		<nav aria-label="..." style="text-align: center;">
+			<ul class="pagination pagination-lg">
+			    <li class="page-item disabled">
+			      <a class="page-link" href="./index.html" tabindex="-1">Tele Atendimento</a>
+			    </li>
+			    <li class="page-item"><a class="page-link" href="./Telediagnostico_ECG.html">Tele Diagnóstico - ECG</a></li>
+			    <li class="page-item"><a class="page-link" href="./Seminarios.html">Tele Educação Seminários</a></li>
+			    <li class="page-item"><a class="page-link" href="./Objetos.html">Tele Educação - Objetos</a></li>
+			</ul>
+		</nav>
+	</body>
+</html>

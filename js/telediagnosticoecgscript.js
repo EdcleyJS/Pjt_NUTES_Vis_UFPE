@@ -156,7 +156,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupinstDigDim= instDigDim.group();
   groupinstDigDim= getTops(groupinstDigDim,6);
 
-  vis2 = dc.barChart("#vis2").width(580)
+  vis2 = dc.barChart("#vis2").width(650)
           .height(200)
           .x(d3.scaleOrdinal().domain(groupinstDigDim))
           .xUnits(dc.units.ordinal)
@@ -204,7 +204,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupmunDim= munDim.group();
   groupmunDim= getTops(groupmunDim,15);
-  vis6 = dc.barChart("#vis6").width(1360)
+  vis6 = dc.barChart("#vis6").width(1200)
           .height(200)
           .x(d3.scaleOrdinal().domain(groupmunDim))
           .xUnits(dc.units.ordinal)

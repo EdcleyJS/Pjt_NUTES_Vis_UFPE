@@ -91,6 +91,7 @@ d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,data) {
           .ordering(function(d) { return -d.value })
           .dimension(origemDim)
           .group(grouporigemDim)
+
           .elasticY(true);
   vis1.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
@@ -118,12 +119,12 @@ d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,data) {
 
   //Dimensão GERES
   var vis3,gereDim,groupgereDim;
+  
   gereDim = cf.dimension(function(d) {
     //console.log(d["AREA DE TELECONSULTORIA"]);
     return d["GERES"];
   });
   groupgereDim= gereDim.group();
-  
   vis3 = dc.barChart("#vis3").width(750)
           .height(200)
           .x(d3.scaleOrdinal().domain(groupgereDim))
@@ -166,7 +167,7 @@ d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,data) {
   groupmunDim= munDim.group();
   groupmunDim = getTops(groupmunDim,12);
 
-  vis6 = dc.barChart("#vis6").width(1360)
+  vis6 = dc.barChart("#vis6").width(1200)
           .height(200)
           .x(d3.scaleOrdinal().domain(groupmunDim))
           .xUnits(dc.units.ordinal)
@@ -174,6 +175,11 @@ d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,data) {
           .yAxisLabel("Quantidade")
           .dimension(munDim)
           .group(groupmunDim)
+          .renderlet(function (chart) {
+                chart.selectAll("g.x text")
+                .attr('transform', "rotate(-8)");
+            })
+          //.colors(d3.scaleOrdinal().domain(munDim).range(["#00FF00","#FF0000"]))
           .elasticY(true)
           .ordering(function(d) { return -d.value })
           ;
