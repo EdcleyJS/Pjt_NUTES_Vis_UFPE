@@ -1,3 +1,74 @@
+var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
+
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  maxZoom: 18,
+  id: 'mapbox.streets',
+  accessToken: 'pk.eyJ1IjoiZWRjbGV5OTQ1MiIsImEiOiJjamdvMGdmZ2owaTdiMndwYTJyM2tteTl2In0.2q25nBNRxzFxeaYahFGQ6g'
+  }).addTo(mymap);
+
+function color(d) {
+    return d > 600 ? '#034e7b' :
+           d > 300  ? '#0570b0' :
+           d > 150  ? '#3690c0' :
+           d > 50  ? '#74a9cf' :
+           d > 15   ? '#a6bddb' :
+           d > 3   ? '#d0d1e6' :
+           d > 0  ? '#f1eef6':
+                      '#f1eef6';
+}
+var dados,geoLayer;
+
+d3.json("./geojson/pe.json",function(error,dadoss){
+  dados=dadoss;
+});
+var vis6,munDim,groupmunDim;
+function updateMap(data){
+    if(geoLayer!= null){
+      geoLayer.clearLayers();
+    }
+  cfg = crossfilter(dados.features);
+  //Criação das Dimensões e Grupos com base no crossfilter.
+  geomDimension = cfg.dimension(function(d) {
+    return d.geometry;
+  });
+  geoLayer= L.geoJson({
+    type: 'FeatureCollection',
+    features: geomDimension.top(Infinity),
+  },{
+    filter: function(feature) {
+      var aux= foldToASCII(feature.properties.name).toUpperCase();
+      for (i = 0; i < data.length; i++) {
+        if(aux == data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]){
+          console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]);
+          return true;
+        }
+      }
+    },style: function(feature){
+      //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
+      for (i = 0; i < groupmunDim.all().length; i++) {
+        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
+          return {
+            weight: 0.5,
+            opacity: 1,
+            fillColor: color(groupmunDim.all()[i].value),
+            color: 'black',
+            fillOpacity: 0.9
+          };
+        }
+      } 
+  },
+  onEachFeature: function (feature, layer) {
+        //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
+        for (i = 0; i < groupmunDim.all().length; i++) {
+        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
+          layer.bindPopup(feature.properties.name+": "+groupmunDim.all()[i].value+" Exames");
+        }
+      }
+    }
+  }).addTo(mymap);
+}
+
 d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,data) {
   
   cf = crossfilter(data);
@@ -80,7 +151,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
 
   vis10 = dc.barChart("#vis10").width(300)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupareaTelDim))
+          .x(d3.scaleBand().domain(groupareaTelDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -99,7 +170,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupdescDim= descDim.group();
   vis16 = dc.barChart("#vis16").width(300)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupdescDim))
+          .x(d3.scaleBand().domain(groupdescDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -116,9 +187,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
     return d["GERES DIGITADOR"];
   });
   groupgereDim= gereDim.group();
-  vis3 = dc.barChart("#vis3").width(700)
+  vis3 = dc.barChart("#vis3").width(600)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupgereDim))
+          .x(d3.scaleBand().domain(groupgereDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -137,7 +208,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupinstLaudDim= instLaudDim.group();
   vis1 = dc.barChart("#vis1").width(180)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupinstLaudDim))
+          .x(d3.scaleBand().domain(groupinstLaudDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -154,23 +225,23 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
     return d["INSTITUIÇÃO DIGITADOR"];
   });
   groupinstDigDim= instDigDim.group();
-  groupinstDigDim= getTops(groupinstDigDim,6);
+  groupinstDigDim= getTops(groupinstDigDim,12);
 
-  vis2 = dc.barChart("#vis2").width(650)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupinstDigDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
-          .ordering(function(d) { return -d.value })
+  vis2 = dc.rowChart("#vis2").width(600)
+          .height(300)
+          .x(d3.scaleBand().domain(groupinstDigDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
+          //.ordering(function(d) { return -d.value })
           .dimension(instDigDim)
           .group(groupinstDigDim)
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .elasticY(true);
-  vis2.yAxis().tickFormat(d3.format(".2s"));
+          //.renderlet(function (chart) {
+          //      chart.selectAll("g.x text")
+          //      .attr('transform', "rotate(-5)");
+          //  })
+          .elasticX(true);
+  //vis2.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão INSTITUIÇÃO RESPONSÁVEL EXAME
@@ -179,34 +250,34 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
     return d["INSTITUIÇÃO RESPONSÁVEL EXAME"];
   });
   groupinstRespDim= instRespDim.group();
-  groupinstRespDim= getTops(groupinstRespDim,6);
-  vis4 = dc.barChart("#vis4").width(580)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupinstRespDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
-          .ordering(function(d) { return -d.value })
+  groupinstRespDim= getTops(groupinstRespDim,12);
+  vis4 = dc.rowChart("#vis4").width(580)
+          .height(300)
+          .x(d3.scaleBand().domain(groupinstRespDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
+          //.ordering(function(d) { return -d.value })
           .dimension(instRespDim)
           .group(groupinstRespDim)
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .elasticY(true);
-  vis4.yAxis().tickFormat(d3.format(".2s"));
+          //.renderlet(function (chart) {
+          //      chart.selectAll("g.x text")
+          //      .attr('transform', "rotate(-5)");
+          //  })
+          .elasticX(true);
+  //vis4.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão MUNCÍPIO RESPONSÁVEL EXAME
-  var vis6,munDim,groupmunDim;
+  
   munDim = cf.dimension(function(d) {
     return d["MUNCÍPIO RESPONSÁVEL EXAME"];
   });
   groupmunDim= munDim.group();
-  groupmunDim= getTops(groupmunDim,15);
+  /*groupmunDim= getTops(groupmunDim,15);
   vis6 = dc.barChart("#vis6").width(1200)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupmunDim))
+          .x(d3.scaleBand().domain(groupmunDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -219,7 +290,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
             })
           .ordering(function(d) { return -d.value })
           ;
-  vis6.yAxis().tickFormat(d3.format(".2s"));
+  vis6.yAxis().tickFormat(d3.format(".2s"));*/
   //---------------------------------------------//
   
   //Dimensão MUNICÍPIO LAUDISTA
@@ -232,7 +303,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupmunTelDim= getTops(groupmunTelDim,2);
   vis7 = dc.barChart("#vis7").width(180)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupmunTelDim))
+          .x(d3.scaleBand().domain(groupmunTelDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -244,7 +315,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   //---------------------------------------------//
 
   //Dimensão MUNICÍPIO DIGITADOR
-  var vis5,grauSDim,groupgrauSDim;
+  /*var vis5,grauSDim,groupgrauSDim;
   grauSDim = cf.dimension(function(d) {
     return d["MUNICÍPIO DIGITADOR"];
   });
@@ -252,7 +323,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupgrauSDim= getTops(groupgrauSDim,15);
   vis5 = dc.barChart("#vis5").width(900)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupgrauSDim))
+          .x(d3.scaleBand().domain(groupgrauSDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Número de Avaliações")
@@ -264,7 +335,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
                 .attr('transform', "rotate(-6)");
             })
           .elasticY(true);
-  vis5.yAxis().tickFormat(d3.format(".2s"));
+  vis5.yAxis().tickFormat(d3.format(".2s"));*/
   //---------------------------------------------//
 
    //Dimensão MES
@@ -275,7 +346,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupmesDim= mesDim.group();
   vis8 = dc.barChart("#vis8").width(600)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupmesDim))
+          .x(d3.scaleBand().domain(groupmesDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -293,21 +364,21 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupocuSolDim= ocuSolDim.group();
   groupocuSolDim= getTops(groupocuSolDim,8);
-  vis11 = dc.barChart("#vis11").width(850)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupocuSolDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+  vis11 = dc.rowChart("#vis11").width(550)
+          .height(250)
+          .x(d3.scaleBand().domain(groupocuSolDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(ocuSolDim)
           .group(groupocuSolDim)
-          .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .elasticY(true);
-  vis11.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          //.renderlet(function (chart) {
+          //      chart.selectAll("g.x text")
+          //      .attr('transform', "rotate(-5)");
+          //  })
+          .elasticX(true);
+  //vis11.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO TELECONSULTOR
@@ -317,21 +388,21 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupocuTelDim= ocuTelDim.group();
   groupocuTelDim= getTops(groupocuTelDim,8);
-  vis12 = dc.barChart("#vis12").width(350)
+  vis12 = dc.rowChart("#vis12").width(350)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupocuTelDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+          .x(d3.scaleBand().domain(groupocuTelDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(ocuTelDim)
           .group(groupocuTelDim)
-          .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .elasticY(true);
-  vis12.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          //.renderlet(function (chart) {
+          //      chart.selectAll("g.x text")
+          //      .attr('transform', "rotate(-5)");
+          //  })
+          .elasticX(true);
+  //vis12.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇÃO RESPONSÁVEL EXAME
@@ -341,21 +412,21 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupocupRespExDim= ocupRespExDim.group();
   groupocupRespExDim=getTops(groupocupRespExDim,8);
-  vis9 = dc.barChart("#vis9").width(850)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupocupRespExDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+  vis9 = dc.rowChart("#vis9").width(600)
+          .height(250)
+          .x(d3.scaleBand().domain(groupocupRespExDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(ocupRespExDim)
           .group(groupocupRespExDim)
-          .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .elasticY(true);
-  vis9.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          //.renderlet(function (chart) {
+          //      chart.selectAll("g.x text")
+          //      .attr('transform', "rotate(-5)");
+          //  })
+          .elasticX(true);
+  //vis9.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão STATUS
@@ -365,17 +436,17 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupstatDim= statDim.group();
   groupstatDim= getTops(groupstatDim,8);
-  vis15 = dc.barChart("#vis15").width(280)
+  vis15 = dc.rowChart("#vis15").width(350)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupstatDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+          .x(d3.scaleBand().domain(groupstatDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(statDim)
           .group(groupstatDim)
-          .ordering(function(d) { return -d.value })
-          .elasticY(true);
-  vis15.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          .elasticX(true);
+  //vis15.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
    //Dimensão TEMPO PARA RESPOSTAS EM HORAS
@@ -385,17 +456,17 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   grouptempDim= tempDim.group();
   grouptempDim= getTops(grouptempDim,8);
-  vis17 = dc.barChart("#vis17").width(280)
+  vis17 = dc.rowChart("#vis17").width(350)
           .height(200)
-          .x(d3.scaleOrdinal().domain(grouptempDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+          .x(d3.scaleBand().domain(grouptempDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(tempDim)
           .group(grouptempDim)
-          .ordering(function(d) { return -d.value })
-          .elasticY(true);
-  vis17.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          .elasticX(true);
+  //vis17.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão UF LAUDISTA
@@ -407,7 +478,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupufDim= getTops(groupufDim,8);
   vis18 = dc.barChart("#vis18").width(150)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupufDim))
+          .x(d3.scaleBand().domain(groupufDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -427,7 +498,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   groupregDim= getTops(groupregDim,8);
   vis13 = dc.barChart("#vis13").width(150)
           .height(200)
-          .x(d3.scaleOrdinal().domain(groupregDim))
+          .x(d3.scaleBand().domain(groupregDim))
           .xUnits(dc.units.ordinal)
           .brushOn(true)
           .yAxisLabel("Quantidade")
@@ -437,9 +508,89 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
           .renderlet(function (chart) {
                 chart.selectAll("g.x text")
                 .attr('transform', "rotate(-5)");
-            })
+           })
           .elasticY(true);
   vis13.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
+   var info = L.control();
+  info.onAdd = function (mymap) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+  };
+  info.update = function (props) {
+    this._div.innerHTML = '<h4>Nº de Exames</h4>' +  (props ?'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+        : 'Por Município');
+  };
+  info.addTo(mymap);
+  // Fim da criação da div que contém o Título e Subtítulo do Mapa.
+
+  // criação da div que contém a legenda do Mapa.
+  var legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (mymap) {
+
+      var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 3, 15, 50, 150, 300, 600],
+        labels = [];
+
+      for (var i = 0; i < grades.length; i++) {
+          div.innerHTML +='<i style="color:'+color(grades[i])+'; background:'+color(grades[i])+'"></i>'+">"+grades[i] +'</br>';
+        }
+      return div;
+    };
+    legend.addTo(mymap);
+  updateMap(data);
+  vis3.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(gereDim.top(Infinity));
+  });
+  vis1.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(instLaudDim.top(Infinity));
+  });
+  vis2.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(instDigDim.top(Infinity));
+  });
+  vis4.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(instRespDim.top(Infinity));
+  });
+  vis7.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(munTelDim.top(Infinity));
+  });
+  vis8.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(mesDim.top(Infinity));
+  });
+  vis11.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(ocuSolDim.top(Infinity));
+  });
+  vis12.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(ocuTelDim.top(Infinity));
+  });
+  vis9.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(ocupRespExDim.top(Infinity));
+  });
+  vis15.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(statDim.top(Infinity));
+  });
+  vis17.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(tempDim.top(Infinity));
+  });
+  vis18.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(ufDim.top(Infinity));
+  });
+  vis13.on('filtered', function(chart, filter) {
+    //console.log(gereDim.top(Infinity));
+    updateMap(regDim.top(Infinity));
+  });
   dc.renderAll();
 });
