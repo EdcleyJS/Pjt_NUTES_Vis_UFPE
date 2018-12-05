@@ -1,6 +1,4 @@
 d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
-  	console.log(data);
- 	 //console.log(error);
  	cf = crossfilter(data);
   	var origemDim,canalDim,groupcanalDim,grouporigemDim;
 
@@ -92,21 +90,12 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	});
 	groupcrgFmtDim= crgFmtDim.group();
 	groupcrgFmtDim= getTops(groupcrgFmtDim,15);
-	vis2 = dc.barChart("#vis2").width(1000)
-	          	.height(200)
+	vis2 = dc.rowChart("#vis2").width(600)
+	          	.height(400)
 	          	.x(d3.scaleOrdinal().domain(groupcrgFmtDim))
-	      	   	.xUnits(dc.units.ordinal)
-	         	.brushOn(true)
-	     	    .yAxisLabel("Quantidade")
-	          	.ordering(function(d) { return -d.value })
 	          	.dimension(crgFmtDim)
 	          	.group(groupcrgFmtDim)
-	          	.renderlet(function (chart) {
-	                chart.selectAll("g.x text")
-	                .attr('transform', "rotate(-6)");
-	            })
-	          	.elasticY(true);
-	vis2.yAxis().tickFormat(d3.format(".2s"));
+	          	.elasticX(true);
 	//---------------------------------------------//
 	
    	//Dimensão GERES
@@ -191,22 +180,13 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	    return d["INSTITUIÇÃO FORMATADO"];
 	});
 	groupinstFmtDim= instFmtDim.group();
-	groupinstFmtDim= getTops(groupinstFmtDim,5);  
-	vis5 = dc.barChart("#vis5").width(600)
-	          	.height(200)
+	groupinstFmtDim= getTops(groupinstFmtDim,8);  
+	vis5 = dc.rowChart("#vis5").width(600)
+	          	.height(400)
 	          	.x(d3.scaleOrdinal().domain(groupinstFmtDim))
-	          	.xUnits(dc.units.ordinal)
-	          	.brushOn(true)
-	          	.yAxisLabel("Número de Avaliações")
 	          	.dimension(instFmtDim)
 	          	.group(groupinstFmtDim)
-	          	.ordering(function(d) { return -d.value })
-	          	.renderlet(function (chart) {
-	                chart.selectAll("g.x text")
-	                .attr('transform', "rotate(-6)");
-	            })
-	          .elasticY(true);
-	vis5.yAxis().tickFormat(d3.format(".2s"));
+	          .elasticX(true);
 	//---------------------------------------------//
   	dc.renderAll();
 });

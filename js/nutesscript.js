@@ -1,10 +1,4 @@
-/*   //console.log(data);
-   //dataset = data.map(function(d) { return d});
-   //console.log(dataset)
-   console.log(data);
-});*/
 var dadosE;
-
 var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -15,9 +9,6 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   }).addTo(mymap);
 
 //Escala de cores para o mapa
-//var color = d3.scaleOrdinal().domain([0,300])
-//  .range(['#fee5d9','#fcbba1','#fc9272','#fb6a4a','#ef3b2c','#cb181d','#99000d']);
-
 function color(d) {
     return d > 400 ? '#034e7b' :
            d > 200  ? '#0570b0' :
@@ -59,6 +50,7 @@ function updateMap(data){
       //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
       for (i = 0; i < groupmunDim.all().length; i++) {
         if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
+          //console.log(groupmunDim.all()[i].key);
           return {
             weight: 0.5,
             opacity: 1,
@@ -156,7 +148,6 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
     return d["ORIGEM"];
   });
   grouporigemDim= origemDim.group();
-
   vis1 = dc.barChart("#vis1").width(180)
           .height(200)
           .x(d3.scaleBand().domain(grouporigemDim))
@@ -173,12 +164,11 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
 
   //Dimensão CANAL DE COMUNICAÇãO
   canalDim = cf.dimension(function(d) {
-    //console.log(d["AREA DE TELECONSULTORIA"]);
-    return d["CANAL DE COMUNICAÇãO"];
+    return d["CANAL DE COMUNICAÇãO"].toUpperCase();
   });
   groupcanalDim= canalDim.group();
 
-  vis2 = dc.barChart("#vis2").width(200)
+  vis2 = dc.barChart("#vis2").width(250)
           .height(200)
           .x(d3.scaleBand().domain(groupcanalDim))
           .xUnits(dc.units.ordinal)
@@ -195,7 +185,6 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   var vis3,gereDim,groupgereDim;
   
   gereDim = cf.dimension(function(d) {
-    //console.log(d["AREA DE TELECONSULTORIA"]);
     return d["GERES"];
   });
   groupgereDim= gereDim.group();
@@ -215,7 +204,6 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   //Dimensão GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO
   var vis5,grauSDim,groupgrauSDim;
   grauSDim = cf.dimension(function(d) {
-    //console.log(d["AREA DE TELECONSULTORIA"]);
     return d["GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO"];
   });
   groupgrauSDim= grauSDim.group();
@@ -236,27 +224,10 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   //Dimensão MUNICIPIO
   
   munDim = cf.dimension(function(d) {
-    return d["MUNICÍPIO"];
+    return foldToASCII(d["MUNICÍPIO"]).toUpperCase();
+
   });
   groupmunDim= munDim.group();
-  
-  /*vis6 = dc.barChart("#vis6").width(1200)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupmunDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
-          .dimension(munDim)
-          .group(groupmunDim)
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-8)");
-            })
-          //.colors(d3.scaleOrdinal().domain(munDim).range(["#00FF00","#FF0000"]))
-          .elasticY(true)
-          .ordering(function(d) { return -d.value })
-          ;
-  vis6.yAxis().tickFormat(d3.format(".2s"));*/
   //---------------------------------------------//
 
   //Dimensão MUNICIPIO TELECONSULTOR
@@ -302,11 +273,11 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   //Dimensão NATUREZA 
   var vis9,naturezaDim,groupnaturezaDim;
   naturezaDim = cf.dimension(function(d) {
-    return d["NATUREZA"];
+    return d["NATUREZA"].toUpperCase();
   });
   groupnaturezaDim= naturezaDim.group();
   
-  vis9 = dc.barChart("#vis9").width(350)
+  vis9 = dc.barChart("#vis9").width(450)
           .height(200)
           .x(d3.scaleBand().domain(groupnaturezaDim))
           .xUnits(dc.units.ordinal)
@@ -329,19 +300,9 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   vis11 = dc.rowChart("#vis11").width(550)
           .height(200)
           .x(d3.scaleBand().domain(groupocuSolDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(ocuSolDim)
           .group(groupocuSolDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis11.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO TELECONSULTOR
@@ -355,18 +316,9 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
           .height(300)
           .x(d3.scaleBand().domain(groupocuTelDim))
           .elasticX(true)
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(ocuTelDim)
           .group(groupocuTelDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .render();
-  //vis12.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão REGISTRADOR
@@ -379,19 +331,9 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   vis13 = dc.rowChart("#vis13").width(550)
           .height(300)
           .x(d3.scaleBand().domain(groupregDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(regDim)
           .group(groupregDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis13.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão REGULADOR
@@ -404,18 +346,9 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   vis14 = dc.rowChart("#vis14").width(550)
           .height(200)
           .x(d3.scaleBand().domain(groupregUDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.xAxisLabel("Quantidade")
           .dimension(regUDim)
           .group(groupregUDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis14.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão STATUS
@@ -494,7 +427,6 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
           .dimension(ufDim)
           .group(groupufDim)
           .ordering(function(d) { return -d.value })
-          
           .elasticY(true);
   vis18.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
@@ -502,54 +434,22 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   //Dimensão AREA DE TELECONSULTORIA
   var vis10,areaTelDim,groupareaTelDim;
   areaTelDim = cf.dimension(function(d) {
-    return d["AREA DE TELECONSULTORIA"];
+    if(d["AREA DE TELECONSULTORIA"]!=null){
+      return foldToASCII(d["AREA DE TELECONSULTORIA"]).toUpperCase();
+    }else{
+      return d["AREA DE TELECONSULTORIA"];
+    }
+    
   });
   groupareaTelDim= areaTelDim.group();
   groupareaTelDim= getTops(groupareaTelDim,12);
   vis10 = dc.rowChart("#vis10").width(550)
           .height(300)
           .x(d3.scaleBand().domain(groupareaTelDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(areaTelDim)
           .group(groupareaTelDim)
-          //.ordering(function(d) { return -d.value })
           .elasticX(true);
-  //vis10.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
-	
-  /*
-  //Dimensão gere IMPORTADO
-  var vis4,ciapDim,groupciapDim;
-  ciapDim = cf.dimension(function(d) {
-    //console.log(d["AREA DE TELECONSULTORIA"]);
-    return d["CIAP IMPORTADO"];
-  });
-  groupciapDim= ciapDim.group();
-  groupciapDim= getTops(groupciapDim);
-  console.log(groupciapDim);
-  vis4 = dc.barChart("#vis4").width(950)
-          .height(200)
-          .x(d3.scaleOrdinal().domain(groupciapDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
-          .dimension(ciapDim)
-          .group(groupciapDim)
-          .elasticX(true)
-          .elasticY(true)
-          .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('dx', '50')
-                .attr('transform', "rotate(-80)");
-            })
-          ;
-  vis4.yAxis().tickFormat(d3.format(".2s"));
-  vis4.rescale();
-  //---------------------------------------------//
-	*/
   
  // criação da div que contém o Título e Subtítulo do Mapa. 
  var info = L.control();
@@ -582,77 +482,55 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   updateMap(data);
 
   vis1.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(origemDim.top(Infinity));
   });
   vis2.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(canalDim.top(Infinity));
   });
   vis3.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(gereDim.top(Infinity));
   });
   vis5.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(grauSDim.top(Infinity));
   });
   vis7.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(munTelDim.top(Infinity));
   });
   vis8.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(mesDim.top(Infinity));
   });
   vis9.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(naturezaDim.top(Infinity));
   });
   vis10.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(areaTelDim.top(Infinity));
   });
   vis11.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ocuSolDim.top(Infinity));
   });
   vis12.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ocuTelDim.top(Infinity));
   });
   vis13.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(regDim.top(Infinity));
   });
   vis14.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(regUDim.top(Infinity));
   });
   vis15.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(statDim.top(Infinity));
   });
   vis15.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(statDim.top(Infinity));
   });
   vis16.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(duvdDim.top(Infinity));
   });
   vis17.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(tempDim.top(Infinity));
   });
   vis18.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ufDim.top(Infinity));
   });
-  //for (var i = 0; i < groupmunDim.all().length; i++) {
-    //console.log(groupmunDim.top(Infinity)[i].key);
-  //}
-  //console.log(munDim.top(Infinity))
-
   dc.renderAll();
 });

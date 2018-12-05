@@ -4,17 +4,12 @@
 		<meta charset="utf-8">
 	    <meta name="author" content="Edcley José da Silva 032018 POS">
 	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	    <script src="./js/d3.v4.min.js"></script>
-	    <script src='./js/crossfilter.js'></script>
-	    <script src='./js/dc.js'></script>
-	    <script src='./js/dc.graph.js'></script>
-	    <script src="./js/jquery.min.js"></script>
-	    <script src="./js/bootstrap.min.js"></script>
-	    <script src="./js/seminariosscript.js"></script>
-		<title>TeleEducação Seminários</title>
-		<link rel="stylesheet" href="./css/dc.css">
+	    <link rel="stylesheet" href="./css/dc.css">
+		<link rel="stylesheet" href="./css/projeto.css">
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/leaflet.css"/>
 		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
+		<title>TeleEducação Seminários</title>
 	</head>
 	<body background="./img/logo_nutes.png">
 		<div class="container">
@@ -27,7 +22,7 @@
 			<div class="tabbable">
 			 	<ul class="nav nav-tabs">
 				  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">Informações Gerais</a></li>
-				  	<li style="background: white"><a href="#tab2"  data-toggle="tab">Detalhamento Mês</a></li>
+				  	<li style="background: white"><a href="#tab2"  data-toggle="tab">Mais Detalhes</a></li>
 				</ul>
 				<div class="tab-content ">
 	                <div class="tab-pane active" id="tab1">
@@ -49,23 +44,24 @@
 							<h4>MÊS DA SOLICITAÇÃO</h4>
 							<div id="vis8"></div>
 						</div>
+						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+							<h4>GERES</h4>
+							<div id="vis3"></div>
+						</div>
 	                </div>
 	            </div>
 			</div>
 			<div class="row">
-				<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 panel panel-default">
-					<h4>CARGO FORMATADO</h4>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default">
+					<h4>CARGO </h4>
 					<div id="vis2"></div>
 				</div>
 				
-				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 panel panel-default">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default">
 					<h4>INSTITUIÇÃO</h4>
 					<div id="vis5"></div>
 				</div>
-				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
-					<h4>GERES</h4>
-					<div id="vis3"></div>
-				</div>
+				
 			</div>
 		</div>
 		<nav aria-label="..." style="text-align: center;">
@@ -79,4 +75,11 @@
 			</ul>
 		</nav>
 	</body>
+	<script src="./js/d3.v4.min.js"></script>
+	<script src='./js/crossfilter.js'></script>
+	<script src='./js/dc.js'></script>
+	<script src='./js/dc.graph.js'></script>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/seminariosscript.js"></script>
 </html>

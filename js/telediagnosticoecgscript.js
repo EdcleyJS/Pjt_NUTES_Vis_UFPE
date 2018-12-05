@@ -40,7 +40,7 @@ function updateMap(data){
       var aux= foldToASCII(feature.properties.name).toUpperCase();
       for (i = 0; i < data.length; i++) {
         if(aux == data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]){
-          console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]);
+          //console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]);
           return true;
         }
       }
@@ -70,7 +70,6 @@ function updateMap(data){
 }
 
 d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,data) {
-  
   cf = crossfilter(data);
   var origemDim,canalDim,groupcanalDim,grouporigemDim;
   function getTops(source_group,option) {
@@ -145,7 +144,11 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   //Dimensão AREA DE TELECONSULTORIA
   var vis10,areaTelDim,groupareaTelDim;
   areaTelDim = cf.dimension(function(d) {
-    return d["AREA DE TELECONSULTORIA"];
+    if(d["AREA DE TELECONSULTORIA"]!=null){
+      return foldToASCII(d["AREA DE TELECONSULTORIA"]).toUpperCase();
+    }else{
+      return d["AREA DE TELECONSULTORIA"];
+    }
   });
   groupareaTelDim= areaTelDim.group();
 
@@ -165,7 +168,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   //Dimensão DESCRITORES
   var vis16,descDim,groupdescDim;
   descDim = cf.dimension(function(d) {
-    return d["DESCRITORES"];
+    return d["DESCRITORES"].toUpperCase();
   });
   groupdescDim= descDim.group();
   vis16 = dc.barChart("#vis16").width(300)
@@ -222,7 +225,12 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   //Dimensão INSTITUIÇÃO DIGITADOR
   var vis2,instDigDim,groupinstDigDim;
   instDigDim = cf.dimension(function(d) {
-    return d["INSTITUIÇÃO DIGITADOR"];
+    if(d["INSTITUIÇÃO DIGITADOR"]!=null){
+      return foldToASCII(d["INSTITUIÇÃO DIGITADOR"]).toUpperCase();
+    }else{
+      return d["INSTITUIÇÃO DIGITADOR"];
+    }
+    
   });
   groupinstDigDim= instDigDim.group();
   groupinstDigDim= getTops(groupinstDigDim,12);
@@ -230,18 +238,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis2 = dc.rowChart("#vis2").width(600)
           .height(300)
           .x(d3.scaleBand().domain(groupinstDigDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
-          //.ordering(function(d) { return -d.value })
           .dimension(instDigDim)
           .group(groupinstDigDim)
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis2.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão INSTITUIÇÃO RESPONSÁVEL EXAME
@@ -254,49 +253,21 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis4 = dc.rowChart("#vis4").width(580)
           .height(300)
           .x(d3.scaleBand().domain(groupinstRespDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
-          //.ordering(function(d) { return -d.value })
           .dimension(instRespDim)
           .group(groupinstRespDim)
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis4.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão MUNCÍPIO RESPONSÁVEL EXAME
-  
   munDim = cf.dimension(function(d) {
     return d["MUNCÍPIO RESPONSÁVEL EXAME"];
   });
   groupmunDim= munDim.group();
-  /*groupmunDim= getTops(groupmunDim,15);
-  vis6 = dc.barChart("#vis6").width(1200)
-          .height(200)
-          .x(d3.scaleBand().domain(groupmunDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
-          .dimension(munDim)
-          .group(groupmunDim)
-          .elasticY(true)
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-5)");
-            })
-          .ordering(function(d) { return -d.value })
-          ;
-  vis6.yAxis().tickFormat(d3.format(".2s"));*/
   //---------------------------------------------//
   
   //Dimensão MUNICÍPIO LAUDISTA
   var vis7,munTelDim,groupmunTelDim;
   munTelDim = cf.dimension(function(d) {
-    //console.log(d["AREA DE TELECONSULTORIA"]);
     return d["MUNICÍPIO LAUDISTA"];
   });
   groupmunTelDim= munTelDim.group();
@@ -312,30 +283,6 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
           .ordering(function(d) { return -d.value })
           .elasticY(true);
   vis7.yAxis().tickFormat(d3.format(".2s"));
-  //---------------------------------------------//
-
-  //Dimensão MUNICÍPIO DIGITADOR
-  /*var vis5,grauSDim,groupgrauSDim;
-  grauSDim = cf.dimension(function(d) {
-    return d["MUNICÍPIO DIGITADOR"];
-  });
-  groupgrauSDim= grauSDim.group();
-  groupgrauSDim= getTops(groupgrauSDim,15);
-  vis5 = dc.barChart("#vis5").width(900)
-          .height(200)
-          .x(d3.scaleBand().domain(groupgrauSDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Número de Avaliações")
-          .dimension(grauSDim)
-          .group(groupgrauSDim)
-          .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
-                chart.selectAll("g.x text")
-                .attr('transform', "rotate(-6)");
-            })
-          .elasticY(true);
-  vis5.yAxis().tickFormat(d3.format(".2s"));*/
   //---------------------------------------------//
 
    //Dimensão MES
@@ -367,18 +314,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis11 = dc.rowChart("#vis11").width(550)
           .height(250)
           .x(d3.scaleBand().domain(groupocuSolDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(ocuSolDim)
           .group(groupocuSolDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis11.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO TELECONSULTOR
@@ -388,21 +326,12 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   });
   groupocuTelDim= ocuTelDim.group();
   groupocuTelDim= getTops(groupocuTelDim,8);
-  vis12 = dc.rowChart("#vis12").width(350)
+  vis12 = dc.rowChart("#vis12").width(450)
           .height(200)
           .x(d3.scaleBand().domain(groupocuTelDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(ocuTelDim)
           .group(groupocuTelDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis12.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇÃO RESPONSÁVEL EXAME
@@ -415,18 +344,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis9 = dc.rowChart("#vis9").width(600)
           .height(250)
           .x(d3.scaleBand().domain(groupocupRespExDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(ocupRespExDim)
           .group(groupocupRespExDim)
-          //.ordering(function(d) { return -d.value })
-          //.renderlet(function (chart) {
-          //      chart.selectAll("g.x text")
-          //      .attr('transform', "rotate(-5)");
-          //  })
           .elasticX(true);
-  //vis9.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão STATUS
@@ -439,14 +359,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis15 = dc.rowChart("#vis15").width(350)
           .height(200)
           .x(d3.scaleBand().domain(groupstatDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(statDim)
           .group(groupstatDim)
-          //.ordering(function(d) { return -d.value })
           .elasticX(true);
-  //vis15.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
    //Dimensão TEMPO PARA RESPOSTAS EM HORAS
@@ -459,14 +374,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   vis17 = dc.rowChart("#vis17").width(350)
           .height(200)
           .x(d3.scaleBand().domain(grouptempDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(tempDim)
           .group(grouptempDim)
-          //.ordering(function(d) { return -d.value })
           .elasticX(true);
-  //vis17.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão UF LAUDISTA
@@ -528,11 +438,9 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
   // criação da div que contém a legenda do Mapa.
   var legend = L.control({position: 'bottomright'});
     legend.onAdd = function (mymap) {
-
       var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 3, 15, 50, 150, 300, 600],
         labels = [];
-
       for (var i = 0; i < grades.length; i++) {
           div.innerHTML +='<i style="color:'+color(grades[i])+'; background:'+color(grades[i])+'"></i>'+">"+grades[i] +'</br>';
         }
@@ -541,55 +449,42 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
     legend.addTo(mymap);
   updateMap(data);
   vis3.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(gereDim.top(Infinity));
   });
   vis1.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(instLaudDim.top(Infinity));
   });
   vis2.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(instDigDim.top(Infinity));
   });
   vis4.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(instRespDim.top(Infinity));
   });
   vis7.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(munTelDim.top(Infinity));
   });
   vis8.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(mesDim.top(Infinity));
   });
   vis11.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ocuSolDim.top(Infinity));
   });
   vis12.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ocuTelDim.top(Infinity));
   });
   vis9.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ocupRespExDim.top(Infinity));
   });
   vis15.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(statDim.top(Infinity));
   });
   vis17.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(tempDim.top(Infinity));
   });
   vis18.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(ufDim.top(Infinity));
   });
   vis13.on('filtered', function(chart, filter) {
-    //console.log(gereDim.top(Infinity));
     updateMap(regDim.top(Infinity));
   });
   dc.renderAll();
