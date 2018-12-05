@@ -71,7 +71,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupcnlComDim= cnlComDim.group();
 	vis1= dc.barChart("#vis1").width(180)
 	        	.height(200)
-	          	.x(d3.scaleOrdinal().domain(groupcnlComDim))
+	          	.x(d3.scaleBand().domain(groupcnlComDim))
 	          	.xUnits(dc.units.ordinal)
 	         	.brushOn(true)
 	        	.yAxisLabel("Quantidade")
@@ -92,7 +92,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupcrgFmtDim= getTops(groupcrgFmtDim,15);
 	vis2 = dc.rowChart("#vis2").width(600)
 	          	.height(400)
-	          	.x(d3.scaleOrdinal().domain(groupcrgFmtDim))
+	          	.x(d3.scaleBand().domain(groupcrgFmtDim))
 	          	.dimension(crgFmtDim)
 	          	.group(groupcrgFmtDim)
 	          	.elasticX(true);
@@ -106,7 +106,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupgereDim= gereDim.group();
 	vis3 = dc.barChart("#vis3").width(400)
 	          	.height(200)
-	          	.x(d3.scaleOrdinal().domain(groupgereDim))
+	          	.x(d3.scaleBand().domain(groupgereDim))
 	          	.xUnits(dc.units.ordinal)
 	          	.brushOn(true)
 	          	.yAxisLabel("Quantidade")
@@ -125,7 +125,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupmesDim= mesDim.group();
 	vis8 = dc.barChart("#vis8").width(600)
 	          	.height(200)
-	          	.x(d3.scaleOrdinal().domain(groupmesDim))
+	          	.x(d3.scaleBand().domain(groupmesDim))
 	          	.xUnits(dc.units.ordinal)
 	          	.brushOn(true)
 	         	.yAxisLabel("Quantidade")
@@ -144,7 +144,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupufDim= ufDim.group();
 	vis18 = dc.barChart("#vis18").width(240)
 	          	.height(200)
-	          	.x(d3.scaleOrdinal().domain(groupufDim))
+	          	.x(d3.scaleBand().domain(groupufDim))
 	          	.xUnits(dc.units.ordinal)
 	          	.brushOn(true)
 	          	.yAxisLabel("Quantidade")
@@ -162,7 +162,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupmunDim= munDim.group();
 	vis4 = dc.barChart("#vis4").width(380)
 	          	.height(200)
-	          	.x(d3.scaleOrdinal().domain(groupmunDim))
+	          	.x(d3.scaleBand().domain(groupmunDim))
 	          	.xUnits(dc.units.ordinal)
 	          	.brushOn(true)
 	          	.yAxisLabel("Quantidade")
@@ -183,7 +183,7 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 	groupinstFmtDim= getTops(groupinstFmtDim,8);  
 	vis5 = dc.rowChart("#vis5").width(600)
 	          	.height(400)
-	          	.x(d3.scaleOrdinal().domain(groupinstFmtDim))
+	          	.x(d3.scaleBand().domain(groupinstFmtDim))
 	          	.dimension(instFmtDim)
 	          	.group(groupinstFmtDim)
 	          .elasticX(true);
