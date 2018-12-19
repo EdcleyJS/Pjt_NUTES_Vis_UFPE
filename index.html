@@ -8,74 +8,21 @@
 		<link rel="stylesheet" href="./css/projeto.css">
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/leaflet.css"/>
-		<link rel="icon" href="./img/cropped-logo_nutes-32x32.png" sizes="32x32">
+		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
 		<title>TeleAtendimento</title>
 	</head>
 	<body background="./img/logo_nutes.png" >
 		
 		<div class="container">
+			
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
 				<div class="panel panel-default col-lg-5 col-md-5 col-sm-5 col-xs-5">
 					<h2 style="text-align: center">Tele Atendimento</h2>
 				</div>
 			</div>
-			<div class="tabbable">
-		 	<ul class="nav nav-tabs">
-			  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">Informações Gerais do Teleatendimento</a></li>
-			  	<li style="background: white"><a href="#tab2"  data-toggle="tab">Detalhes do Teleconsultor</a></li>
-			  	<li style="background: white"><a href="#tab3"  data-toggle="tab">Sobre os Teleatendimentos</a></li>
-			</ul>
-			<div class="tab-content ">
-                <div class="tab-pane active" id="tab1">
-                  	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
-						<h4>ORIGEM DA SOLICITAÇÃO</h4>
-						<div id="vis1"></div>
-					</div>
-					<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5 panel panel-default">
-						<h4>CANAL DE COMUNICAÇÃO </h4>
-						<div id="vis2"></div>
-					</div>
-					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 panel panel-default">
-						<h4>NATUREZA DA SOLICITAÇÃO</h4>
-						<div id="vis9"></div>
-					</div>
-                </div>
-                <div class="tab-pane " id="tab2">
-                	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
-						<h4>MUNICÍPIO DE ATENDIMENTO DO TELECONSULTOR</h4>
-						<div id="vis7"></div>
-					</div>
-                  	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
-						<h4>GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO</h4>
-						<div id="vis5"></div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
-						<h4>TELECONSULTORIA RESOLVEU DÚVIDA</h4>
-						<div id="vis16"></div>
-					</div>
-                </div>
-                <div class="tab-pane" id="tab3">
-                  	<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 panel panel-default">
-						<h4>TEMPO PARA RESPOSTAS EM HORAS</h4>
-						<div id="vis17"></div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
-						<h4>STATUS</h4>
-						<div id="vis15"></div>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
-						<h4>UF DA SOLICITAÇÃO</h4>
-						<div id="vis18"></div>
-					</div>
-                </div>
-            </div>
-		</div>
 			<div class="row">
-				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
-					<h4>GERE DE TELECONSULTORIA</h4>
-					<div id="vis3"></div>
-				</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> </div>
 				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
 					<b>Filtro por Cidade:</b>
 					<select title="Pick a number" class="selectpicker" onchange="onChange(this.value)">
@@ -129,6 +76,64 @@
 					</select>
 					<div id="vis6" style="height:280px;"></div>
 				</div>
+			</div>
+			<div class="tabbable">
+		 	<ul class="nav nav-tabs">
+			  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">Informações Gerais do Teleatendimento</a></li>
+			  	<li style="background: white"><a href="#tab2"  data-toggle="tab">Detalhes do Teleconsultor</a></li>
+			  	<li style="background: white"><a href="#tab3"  data-toggle="tab">Sobre os Teleatendimentos</a></li>
+			</ul>
+			<div class="tab-content ">
+                <div class="tab-pane active" id="tab1">
+                  	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>ORIGEM DA SOLICITAÇÃO</h4>
+						<div id="vis1"></div>
+					</div>
+					<div class="col-lg-4 col-md-5 col-sm-5 col-xs-5 panel panel-default">
+						<h4>CANAL DE COMUNICAÇÃO </h4>
+						<div id="vis2"></div>
+					</div>
+					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 panel panel-default">
+						<h4>NATUREZA DA SOLICITAÇÃO</h4>
+						<div id="vis9"></div>
+					</div>
+                </div>
+                <div class="tab-pane " id="tab2">
+                	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>MUNICÍPIO DE ATENDIMENTO DO TELECONSULTOR</h4>
+						<div id="vis7"></div>
+					</div>
+                  	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>GRAU DE SATISFAÇãO DO SOLICITANTE COM O SERVIÇO</h4>
+						<div id="vis5"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>TELECONSULTORIA RESOLVEU DÚVIDA</h4>
+						<div id="vis16"></div>
+					</div>
+                </div>
+                <div class="tab-pane" id="tab3">
+                  	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 panel panel-default">
+						<h4>TEMPO PARA RESPOSTAS EM HORAS</h4>
+						<div id="vis17"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>STATUS</h4>
+						<div id="vis15"></div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 panel panel-default">
+						<h4>UF DA SOLICITAÇÃO</h4>
+						<div id="vis18"></div>
+					</div>
+                </div>
+            </div>
+		</div>
+			<div class="row">
+				<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
+					<h4>GERE DE TELECONSULTORIA</h4>
+					<div id="vis3"></div>
+				</div>
+				
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 panel panel-default">
 					<h4>MÊS DA SOLICITAÇÃO</h4>
 					<div id="vis8"></div>

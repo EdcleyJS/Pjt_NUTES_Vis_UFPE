@@ -277,17 +277,17 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   });
   groupnaturezaDim= naturezaDim.group();
   
-  vis9 = dc.barChart("#vis9").width(450)
+  vis9 = dc.rowChart("#vis9").width(450)
           .height(200)
           .x(d3.scaleBand().domain(groupnaturezaDim))
-          .xUnits(dc.units.ordinal)
-          .brushOn(true)
-          .yAxisLabel("Quantidade")
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(naturezaDim)
           .group(groupnaturezaDim)
-          .ordering(function(d) { return -d.value })
-          .elasticY(true);
-  vis9.yAxis().tickFormat(d3.format(".2s"));
+          //.ordering(function(d) { return -d.value })
+          .elasticX(true);
+  //vis9.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO SOLICITANTE
@@ -398,7 +398,7 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   });
   grouptempDim= tempDim.group();
   grouptempDim= getTops(grouptempDim,7);
-  vis17 = dc.barChart("#vis17").width(280)
+  vis17 = dc.barChart("#vis17").width(350)
           .height(200)
           .x(d3.scaleBand().domain(grouptempDim))
           .xUnits(dc.units.ordinal)

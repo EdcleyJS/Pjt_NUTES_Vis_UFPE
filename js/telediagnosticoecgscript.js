@@ -69,7 +69,7 @@ function updateMap(data){
   }).addTo(mymap);
 }
 
-d3.json("./TeleassistenciaDB/TelediagnosticoECG.json", function(error,data) {
+d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,data) {
   cf = crossfilter(data);
   var origemDim,canalDim,groupcanalDim,grouporigemDim;
   function getTops(source_group,option) {

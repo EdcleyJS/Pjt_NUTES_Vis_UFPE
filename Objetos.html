@@ -8,18 +8,50 @@
 		<link rel="stylesheet" href="./css/projeto.css">
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/leaflet.css"/>
-		<link rel="icon" href="./img/cropped-logo_nutes-32x32.png" sizes="32x32">
+		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
 		<title>TeleEducação Objetos</title>
 	</head>
 	<body background="./img/logo_nutes.png" >
 		<div class="container">
 			<div class="tabbable">
 				<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
-				<div class="panel panel-default col-lg-5 col-md-5 col-sm-5 col-xs-5">
-					<h2 style="text-align: center">Tele Educação - Objetos</h2>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="panel panel-default col-lg-5 col-md-5 col-sm-5 col-xs-5">
+						<h2 style="text-align: center">Tele Educação - Objetos</h2>
+					</div>
 				</div>
-			</div>
+				<div class="row">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> </div>
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
+					<b>Filtro por Cidade:</b>
+					<select title="Pick a number" class="selectpicker" onchange="onChange(this.value)">
+						<option value="">SELECIONE</option>
+						<option value="ARCOVERDE">ARCOVERDE</option>
+						<option value="BARREIROS">BARREIROS</option>
+						<option value="CABO DE SANTO AGOSTINHO">CABO DE SANTO AGOSTINHO</option>
+						<option value="CABROBO">CABROBO</option>
+						<option value="CARUARU">CARUARU</option>
+						<option value="FLORESTA">FLORESTA</option>
+						<option value="GLORIA DO GOITA">GLORIA DO GOITA</option>
+						<option value="GOIANA">GOIANA</option>
+						<option value="GRAVATA">GRAVATA</option>
+						<option value="IPOJUCA">IPOJUCA</option>
+						<option value="ITAPISSUMA">ITAPISSUMA</option>
+						<option value="JABOATAO DOS GUARARAPES">JABOATAO DOS GUARARAPES</option>
+						<option value="LIMOEIRO">LIMOEIRO</option>
+						<option value="OLINDA">OLINDA</option>
+						<option value="OURICURI">OURICURI</option>
+						<option value="PAULISTA">PAULISTA</option>
+						<option value="RECIFE">RECIFE</option>
+						<option value="SAO JOSE DO EGITO">SAO JOSE DO EGITO</option>
+						<option value="SERRA TALHADA">SERRA TALHADA</option>
+						<option value="SURUBIM">SURUBIM</option>
+						<option value="TRIUNFO">TRIUNFO</option>
+						<option value="TUPARETAMA">TUPARETAMA</option>
+					</select>
+					<div id="vis4" style="height:280px;"></div>
+				</div>
+				</div>
 			 	<ul class="nav nav-tabs">
 				  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">UF e MÊS</a></li>
 				  	<li style="background: white"><a href="#tab2"  data-toggle="tab">GERES RESPONSÁVEL</a></li>
@@ -59,35 +91,7 @@
 					<h4>CARGO</h4>
 					<div id="vis1"></div>
 				</div>
-				<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 panel panel-default">
-					<b>Filtro por Cidade:</b>
-					<select title="Pick a number" class="selectpicker" onchange="onChange(this.value)">
-						<option value="">SELECIONE</option>
-						<option value="ARCOVERDE">ARCOVERDE</option>
-						<option value="BARREIROS">BARREIROS</option>
-						<option value="CABO DE SANTO AGOSTINHO">CABO DE SANTO AGOSTINHO</option>
-						<option value="CABROBO">CABROBO</option>
-						<option value="CARUARU">CARUARU</option>
-						<option value="FLORESTA">FLORESTA</option>
-						<option value="GLORIA DO GOITA">GLORIA DO GOITA</option>
-						<option value="GOIANA">GOIANA</option>
-						<option value="GRAVATA">GRAVATA</option>
-						<option value="IPOJUCA">IPOJUCA</option>
-						<option value="ITAPISSUMA">ITAPISSUMA</option>
-						<option value="JABOATAO DOS GUARARAPES">JABOATAO DOS GUARARAPES</option>
-						<option value="LIMOEIRO">LIMOEIRO</option>
-						<option value="OLINDA">OLINDA</option>
-						<option value="OURICURI">OURICURI</option>
-						<option value="PAULISTA">PAULISTA</option>
-						<option value="RECIFE">RECIFE</option>
-						<option value="SAO JOSE DO EGITO">SAO JOSE DO EGITO</option>
-						<option value="SERRA TALHADA">SERRA TALHADA</option>
-						<option value="SURUBIM">SURUBIM</option>
-						<option value="TRIUNFO">TRIUNFO</option>
-						<option value="TUPARETAMA">TUPARETAMA</option>
-					</select>
-					<div id="vis4" style="height:280px;"></div>
-				</div>
+				
 			</div>
 		</div>
 		<nav aria-label="..." style="text-align: center;">
