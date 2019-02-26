@@ -10,6 +10,20 @@
 		<link rel="stylesheet" href="./css/leaflet.css"/>
 		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
 		<title>TeleEducação Objetos</title>
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/d3.v4.min.js"></script>
+		<script src='./js/crossfilter.js'></script>
+		<script src='./js/dc.js'></script>
+		<script src='./js/dc.graph.js'></script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="./js/color-mixin.js"></script>
+		<script src="./js/leaflet-pip.js"></script>
+	    <script src="./js/leaflet.js"></script>
+	    <script src='./js/dc.graph.js'></script>
+	    <script src='./js/dc.leaflet.js'></script>
+		<script src="https://cdn.jsdelivr.net/npm/colorbrewer@1.0.0/colorbrewer.js"></script>
+		<script src="https://rawgit.com/mplatt/fold-to-ascii/eae6030cc155a59fe7859666b4fb45171c67a17f/fold-to-ascii.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
 	</head>
 	<body background="./img/logo_nutes.png" >
 		<div class="container">
@@ -24,31 +38,7 @@
 					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> </div>
 					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
 					<b>Filtro por Cidade:</b>
-					<select title="Pick a option" class="selectpicker" id="opcoes" onchange="onChange(this.value)">
-						<!--<option value="">SELECIONE</option>
-						<option value="ARCOVERDE">ARCOVERDE</option>
-						<option value="BARREIROS">BARREIROS</option>
-						<option value="CABO DE SANTO AGOSTINHO">CABO DE SANTO AGOSTINHO</option>
-						<option value="CABROBO">CABROBO</option>
-						<option value="CARUARU">CARUARU</option>
-						<option value="FLORESTA">FLORESTA</option>
-						<option value="GLORIA DO GOITA">GLORIA DO GOITA</option>
-						<option value="GOIANA">GOIANA</option>
-						<option value="GRAVATA">GRAVATA</option>
-						<option value="IPOJUCA">IPOJUCA</option>
-						<option value="ITAPISSUMA">ITAPISSUMA</option>
-						<option value="JABOATAO DOS GUARARAPES">JABOATAO DOS GUARARAPES</option>
-						<option value="LIMOEIRO">LIMOEIRO</option>
-						<option value="OLINDA">OLINDA</option>
-						<option value="OURICURI">OURICURI</option>
-						<option value="PAULISTA">PAULISTA</option>
-						<option value="RECIFE">RECIFE</option>
-						<option value="SAO JOSE DO EGITO">SAO JOSE DO EGITO</option>
-						<option value="SERRA TALHADA">SERRA TALHADA</option>
-						<option value="SURUBIM">SURUBIM</option>
-						<option value="TRIUNFO">TRIUNFO</option>
-						<option value="TUPARETAMA">TUPARETAMA</option>-->
-					</select>
+					<select title="Pick a option" class="selectpicker" id="opcoes" onchange="onChange(this.value)"></select>
 					<div id="vis4" style="height:280px;"></div>
 				</div>
 				</div>
@@ -105,20 +95,6 @@
 			</ul>
 		</nav>
 	</body>
-	<script src="./js/jquery.min.js"></script>
-	<script src="./js/d3.v4.min.js"></script>
-	<script src='./js/crossfilter.js'></script>
-	<script src='./js/dc.js'></script>
-	<script src='./js/dc.graph.js'></script>
-	<script src="./js/bootstrap.min.js"></script>
-	<script src="./js/color-mixin.js"></script>
-	<script src="./js/leaflet-pip.js"></script>
-    <script src="./js/leaflet.js"></script>
-    <script src='./js/dc.graph.js'></script>
-    <script src='./js/dc.leaflet.js'></script>
-	<script src="https://cdn.jsdelivr.net/npm/colorbrewer@1.0.0/colorbrewer.js"></script>
-	<script src="https://rawgit.com/mplatt/fold-to-ascii/eae6030cc155a59fe7859666b4fb45171c67a17f/fold-to-ascii.js"></script>
 	<script src="./js/objetosscript.js" ></script>
 	<script src="./js/nutescript.js"></script>
-	<script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
 </html>

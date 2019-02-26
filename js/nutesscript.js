@@ -9,7 +9,6 @@ for (var i =0; i <cidades.length; i++) {
   opt.value = cidades[i];
     opt.innerHTML = cidades[i];
     select.appendChild(opt);
-    //console.log(opt);
 }
 
 var dadosE;
@@ -58,7 +57,7 @@ function updateMap(data){
       for (i = 0; i < data.length; i++) {
         if(data[i].MUNICÍPIO!=null){
           if(aux == data[i].MUNICÍPIO.toUpperCase()){
-            console.log(data[i].MUNICÍPIO.toUpperCase());
+            
             return true;
           }
         }
@@ -68,7 +67,7 @@ function updateMap(data){
       //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
       for (i = 0; i < groupmunDim.all().length; i++) {
         if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
-          //console.log(groupmunDim.all()[i].key);
+          
           return {
             weight: 0.5,
             opacity: 1,
@@ -246,7 +245,7 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
 
   });
   groupmunDim= munDim.group();
-  console.log(groupmunDim.all());
+  
   //---------------------------------------------//
 
   //Dimensão MUNICIPIO TELECONSULTOR
@@ -299,14 +298,9 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   vis9 = dc.rowChart("#vis9").width(450)
           .height(200)
           .x(d3.scaleBand().domain(groupnaturezaDim))
-          //.xUnits(dc.units.ordinal)
-          //.brushOn(true)
-          //.yAxisLabel("Quantidade")
           .dimension(naturezaDim)
           .group(groupnaturezaDim)
-          //.ordering(function(d) { return -d.value })
           .elasticX(true);
-  //vis9.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO SOLICITANTE

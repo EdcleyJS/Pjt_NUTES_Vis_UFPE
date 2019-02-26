@@ -1,15 +1,16 @@
 var cidades=["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","ARCOVERDE","BARRA DE GUABIRABA","BELO JARDIM","BOM JARDIM","CARNAIBA","EXU","FEIRA NOVA","FERREIROS","GARANHUNS","GOIANA","GRANITO","IBIRAJUBA","IGARASSU","JATOBA","JUREMA","LAGOA DO CARRO","LAJEDO","LIMOEIRO","OLIVEDOS","OURICURI","PAULO AFONSO","PASSIRA","PETROLANDIA","PRIMAVERA","RECIFE","SALGUEIRO","SAO BENTO DO UNA","SERRA TALHADA","SERRITA","TACARATU","TUPARETAMA"];
-select = document.getElementById('opcoes');
+var select = document.getElementById('opcoes');
 var opt = document.createElement('option');
-  opt.value = "";
-  opt.innerHTML = "SELECIONE";
-  select.appendChild(opt);
+
+opt.value = "";
+opt.innerHTML = "SELECIONE";
+select.appendChild(opt);
+
 for (var i =0; i <cidades.length; i++) {
   var opt = document.createElement('option');
   opt.value = cidades[i];
-    opt.innerHTML = cidades[i];
-    select.appendChild(opt);
-    //console.log(opt);
+  opt.innerHTML = cidades[i];
+  select.appendChild(opt);
 }
 
 var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
@@ -31,16 +32,16 @@ function color(d) {
            d > 0  ? '#f1eef6':
                       '#f1eef6';
 }
-var dados,geoLayer;
 
 d3.json("./geojson/pe.json",function(error,dadoss){
   dados=dadoss;
 });
-var vis6,munDim,groupmunDim;
+
+var vis6,munDim,groupmunDim,dados,geoLayer;
 function updateMap(data){
-    if(geoLayer!= null){
-      geoLayer.clearLayers();
-    }
+  if(geoLayer!= null){
+    geoLayer.clearLayers();
+  }
   cfg = crossfilter(dados.features);
   //Criação das Dimensões e Grupos com base no crossfilter.
   geomDimension = cfg.dimension(function(d) {
@@ -55,7 +56,6 @@ function updateMap(data){
       for (i = 0; i < data.length; i++){
         if(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]!=null){
           if(aux == data[i]["MUNCÍPIO RESPONSÁVEL EXAME"].toUpperCase()){
-            console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"].toUpperCase());
             return true;
           }
         }
@@ -73,8 +73,7 @@ function updateMap(data){
           };
         }
       } 
-  },
-  onEachFeature: function (feature, layer) {
+  },onEachFeature: function (feature, layer) {
         //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
         for (i = 0; i < groupmunDim.all().length; i++) {
         if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
@@ -85,7 +84,7 @@ function updateMap(data){
   }).addTo(mymap);
 }
 
-d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,data) {
+d3.json("./TeleassistenciaDB/Telediagnosticodoecg.json", function(error,data) {
   cf = crossfilter(data);
   var origemDim,canalDim,groupcanalDim,grouporigemDim;
   function getTops(source_group,option) {
@@ -154,14 +153,11 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
         };
         break;
       }
-    
   }
-  
   munrespexame= cf.dimension(function(d) {
     return d["MUNCÍPIO RESPONSÁVEL EXAME"];
   });
   GRUPOmunrespexame= munrespexame.group();
-  console.log(GRUPOmunrespexame.all());
   //Dimensão AREA DE TELECONSULTORIA
   var vis10,areaTelDim,groupareaTelDim;
   areaTelDim = cf.dimension(function(d) {
@@ -436,7 +432,7 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
           .dimension(regDim)
           .group(groupregDim)
           .ordering(function(d) { return -d.value })
-          .renderlet(function (chart) {
+          .on("renderlet",function (chart) {
                 chart.selectAll("g.x text")
                 .attr('transform', "rotate(-5)");
            })

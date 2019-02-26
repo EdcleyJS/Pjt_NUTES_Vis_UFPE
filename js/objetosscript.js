@@ -1,4 +1,4 @@
-var cidades= ["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","ALTINHO","ARACOIABA","ARARIPINA","ARCOVERDE","BARREIROS","BEZERROS","BOM JARDIM","BONITO","BREJINHO","CABO DE SANTO AGOSTINHO","CABROBO","CAMARAGIBE","CAMUTANGA","CARPINA","CARUARU","CASINHAS","CATENDE","CEDRO","CHA DE ALEGRIA","CONDADO","CORTES","CUSTODIA","DORMENTES","ESCADA","FEIRA NOVA","FERREIROS","FLORESTA","GAMELEIRA","GARANHUNS","GLORIA DO GOITA","GOIANA","GRAVATA","IBIMIRIM","IGARASSU","ILHA DE ITAMARACA","INAJA","INGAZEIRA","IPOJUCA","IPUBI","ITAIBA","ITAMBE","ITAPETIM","ITAPISSUMA","JABOATAO DOS GUARARAPES","JUAZEIRO","JUREMA","LAGOA DO CARRO","LAGOA DO ITAENGA","LAGOA GRANDE","LAJEDO","LIMOEIRO","MACHADOS","MORENO","NAZARE DA MATA","OLINDA","OURICURI","PALMARES","PASSIRA","PAUDALHO","PAULISTA","PESQUEIRA","PETROLANDIA","PETROLINA","POMBOS","PRIMAVERA","RECIFE","RIBEIRAO","SALGUEIRO","SALOA","SANHARO","SANTA CRUZ DA BAIXA VERDE","SANTA FILOMENA","SANTA MARIA DA BOA VISTA","SAO BENEDITO DO SUL","SAO JOSE DA COROA GRANDE","SAO JOSE DO BELMONTE","SAO JOSE DO EGITO","SAO LOURENCO DA MATA","SAO VICENTE FERRER","SERRA TALHADA","SURUBIM","TABIRA","TAMANDARE","TAQUARITINGA DO NORTE","TIMBAUBA","TRINDADE","TRIUNFO","TUPARETAMA","VICENCIA","VITORIA DE SANTO ANTAO"];
+var cidades= ["ABARE","ABREU E LIMA","ACOPIARA","AFOGADOS DA INGAZEIRA","AFRANIO","AGUA DOCE","AGUAS BELAS","ALCANTIL","ALTINHO","ALTO BOA VISTA","ALTO RIO NOVO","AMARGOSA","ANGICAL","APUIARES","ARACAJU","ARACOIABA","ARACRUZ","ARAGUAINA","ARAL MOREIRA","ARAPIRACA","ARARIPE","ARARIPINA","ARCOVERDE","ARMACAO DOS BUZIOS","BARAUNA","BARRA BONITA","BARRA DO GARCAS","BARREIROS","BEBEDOURO","BELEM","BELMONTE","BEZERROS","BOA VISTA","BOM JARDIM","BONITO","BREJINHO","CABEDELO","CABO DE SANTO AGOSTINHO","CABO FRIO","CABROBO","CACERES","CAMARAGIBE","CAMPINA GRANDE","CAMPINORTE","CAMPOS DOS GOYTACAZES","CAMUTANGA","CANAA DOS CARAJAS","CARPINA","CARUARU","CASCAVEL","CASINHAS","CATENDE","CAUCAIA","CAXIAS DO SUL","CEDRO","CHA DE ALEGRIA","CHAPADA DO NORTE","CHAPECO","CONDADO","CONSELHEIRO LAFAIETE","CORINTO","CORTES","CORURIPE","COXIXOLA","CRICIUMA","CURRAIS NOVOS","CUSTODIA","DELMIRO GOUVEIA","DORMENTES","ENGENHEIRO NAVARRO","ESCADA","FEIRA NOVA","FERREIROS","FLORESTA","FLORIANO","FLORIANOPOLIS","FORTALEZA","GAMA","GAMELEIRA","GARANHUNS","GLORIA DO GOITA","GOIANA","GOIANIA","GRAVATA","GUARABIRA","IACU","IBIMIRIM","ICAPUI","ICO","IGARASSU","IGUATU","ILHA DE ITAMARACA","INAJA","INGAZEIRA","IPOJUCA","IPUBI","IRAUCUBA","ITAIBA","ITAJAI","ITAMBE","ITAPAGE","ITAPETIM","ITAPEVA","ITAPIPOCA","ITAPISSUMA","JABOATAO DOS GUARARAPES","JAGUARETAMA","JARDIM","JOAO PESSOA","JUAZEIRO","JUIZ DE FORA","JUREMA","LAGOA DO CARRO","LAGOA DO ITAENGA","LAGOA GRANDE","LAGOA SANTA","LAJEDO","LIMOEIRO","LIVRAMENTO DE NOSSA SENHORA","MACAPA","MACAU","MACEIO","MACHADOS","MADRE DE DEUS","MANAUS","MARABA","MARACANAU","MARICA","MORENO","MORRO AGUDO","MOSSORO","NATAL","NAZARE DA MATA","NOVA AMERICA","NOVA SERRANA","OIAPOQUE","OLINDA","OURICURI","OURO BRANCO","PALHANO","PALMARES","PARNAIBA","PASSIRA","PATOS","PAU DOS FERROS","PAUDALHO","PAULISTA","PEDRA LAVRADA","PESQUEIRA","PETROLANDIA","PETROLINA","POMBOS","PORTO ALEGRE","PORTO VELHO","PRESIDENTE MEDICI","PRESIDENTE PRUDENTE","PRIMAVERA","QUIXERE","RECIFE","RIBEIRAO","RIBEIRAO DAS NEVES","RIO DE JANEIRO","SALGUEIRO","SALOA","SALVADOR","SANHARO","SANTA BARBARA","SANTA CRUZ DA BAIXA VERDE","SANTA FILOMENA","SANTA MARIA DA BOA VISTA","SANTO ANTONIO DO ARACANGUA","SAO BENEDITO DO SUL","SAO BENTO","SAO GONCALO DO AMARANTE","SAO JOAO DO JAGUARIBE","SAO JOSE DA COROA GRANDE","SAO JOSE DO BELMONTE","SAO JOSE DO EGITO","SAO LOURENCO DA MATA","SAO LUIS","SAO PAULO","SAO VICENTE FERRER","SERRA TALHADA","SIMOES FILHO","SOBRAL","SOSSEGO","SURUBIM","TABIRA","TAGUATINGA","TAMANDARE","TAQUARA","TAQUARITINGA DO NORTE","TEOTONIO VILELA","TIMBAUBA","TRAMANDAI","TRINDADE","TRIUNFO","TUPARETAMA","VASSOURAS","VERA CRUZ","VICENCIA","VITORIA DE SANTO ANTAO"];
 select = document.getElementById('opcoes');
 var opt = document.createElement('option');
 	opt.value = "";
@@ -9,27 +9,6 @@ for (var i =0; i <cidades.length; i++) {
 	opt.value = cidades[i];
     opt.innerHTML = cidades[i];
    	select.appendChild(opt);
-    //console.log(opt);
-}
-function retira_acentos(str) {
-	com_acento = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿŕ";
-
-	sem_acento = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYRsBaaaaaaaceeeeiiiionoooooouuuuybyr";
-    novastr="";
-    for(i=0; i<str.length; i++) {
-        troca=false;
-        for (a=0; a<com_acento.length; a++) {
-            if (str.substr(i,1)==com_acento.substr(a,1)) {
-                novastr+=sem_acento.substr(a,1);
-                troca=true;
-                break;
-            }
-        }
-        if (troca==false) {
-            novastr+=str.substr(i,1);
-        }
-    }
-    return novastr;
 }  
 var mymap = L.map('vis4').setView([-8.462965,-37.7451021], 7);
 
@@ -53,7 +32,7 @@ function color(d) {
 
 var dados,geoLayer;
 
-d3.json("./geojson/pe.json",function(error,dadoss){
+d3.json("./geojson/pe3.json",function(error,dadoss){
   dados=dadoss;
 }); 
 
@@ -63,51 +42,47 @@ function updateMap(data){
     if(geoLayer!= null){
       geoLayer.clearLayers();
     }
-  cfg = crossfilter(dados.features);
-  //Criação das Dimensões e Grupos com base no crossfilter.
-  geomDimension = cfg.dimension(function(d) {
-    return d.geometry;
-  });
-  geoLayer= L.geoJson({
-    type: 'FeatureCollection',
-    features: geomDimension.top(Infinity),
-  },{
+  	cfg = crossfilter(dados.features);
+  	//Criação das Dimensões e Grupos com base no crossfilter.
+  	geomDimension = cfg.dimension(function(d) {
+    	return d.geometry;
+  	});
+  	geoLayer= L.geoJson({
+    	type: 'FeatureCollection',
+    	features: geomDimension.top(Infinity),
+  	},{
     filter: function(feature) {
-      var aux= foldToASCII(feature.properties.name).toUpperCase();
-
-      for (i = 0; i < data.length; i++) {
-      	if(data[i].MUNICÍPIO!=null){
-      		if(aux == data[i].MUNICÍPIO.toUpperCase()){
-      			//console.log(data[i].UF);
-      			//console.log(data[i].MUNICÍPIO.toUpperCase());
-	          return true;
-	        }
+      	var aux= foldToASCII(feature.properties.name).toUpperCase();
+      	for (i = 0; i < data.length; i++) {
+      		if(data[i].MUNICÍPIO!=null && aux == foldToASCII(data[i].MUNICÍPIO).toUpperCase()){
+	          	return true;
+      		}
       	}
-        
-      }
     },style: function(feature){
-      //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
-      for (i = 0; i < groupmunDim.all().length; i++) {
-        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
-          return {
-            weight: 0.5,
-            opacity: 1,
-            fillColor: color(groupmunDim.all()[i].value),
-            color: 'black',
-            fillOpacity: 0.9
-          };
-        }
-      } 
-  },
-  onEachFeature: function (feature, layer) {
-        //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
-        for (i = 0; i < groupmunDim.all().length; i++) {
-        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
-          layer.bindPopup(feature.properties.name+": "+groupmunDim.all()[i].value+" Solicitações");
-        }
-      }
-    }
-  }).addTo(mymap);
+      	//Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
+      	var aux3=foldToASCII(feature.properties.name).toUpperCase();
+      	for (i = 0; i < groupmunDim.all().length; i++) {
+	        if(groupmunDim.all()[i].key == aux3){
+	          	return {
+		            weight: 0.5,
+		            opacity: 1,
+		            fillColor: color(groupmunDim.all()[i].value),
+		            color: 'black',
+		            fillOpacity: 0.9
+	          	};
+	        }
+      	} 
+ 	},
+ 		onEachFeature: function (feature, layer) {
+	    //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
+	        var aux4= foldToASCII(feature.properties.name).toUpperCase();
+	        for (i = 0; i < groupmunDim.all().length; i++) {
+		        if(groupmunDim.all()[i].key == aux4){
+		          	layer.bindPopup(feature.properties.name+": "+groupmunDim.all()[i].value+" Solicitações");
+		        }
+	      	}
+    	}
+  	}).addTo(mymap);
 }
 
 d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
@@ -233,50 +208,10 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
 	//Dimensão MUNICÍPIO LAUDISTA
 	munDim = cf.dimension(function(d) {
 		if(d["MUNICÍPIO"]!=null){
-			return d["MUNICÍPIO"].toUpperCase();
-		}else{
-			return d["MUNICÍPIO"];
+			return foldToASCII(d["MUNICÍPIO"].toUpperCase());
 		}
 	});
 	groupmunDim= munDim.group();
-	var p=[];
-	//console.log(groupmunDim.all()[1].key);
-	////console.log(groupmunDim.getElementById(0));
-	for (var i=0; i<groupmunDim.size(); i++) {
-		//console.log("ok");
-	    p.push(""+groupmunDim.all()[i].key);
-	    
-	}
-	//console.log(p);
-	function arr_diff (a1, a2) {
-
-    var a = [], diff = [];
-
-    for (var i = 0; i < a1.length; i++) {
-        a[a1[i]] = true;
-    }
-
-    for (var i = 0; i < a2.length; i++) {
-        if (a[a2[i]]) {
-            delete a[a2[i]];
-        } else {
-            a[a2[i]] = true;
-        }
-    }
-    for (var k in a) {
-        diff.push(k);
-    }
-	    return diff;
-	}
-	//console.log(arr_diff(cidades,p));
-	/*b = {};
-	for (var i = 0; i < p; i++) {
-	    b[a[i]] = a[i];
-	}
-	arr = [];
-	for (var key in b) {
-	    arr.push(key);
-	}*/
 	//---------------------------------------------//
 
 	//Dimensão MES
@@ -323,7 +258,7 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
 	    return d["TIPO OBJETO"];
 	});
 	grouptipObjtDim= tipObjtDim.group();
-	vis5 = dc.barChart("#vis5").width(700)
+	vis5 = dc.barChart("#vis5").width(750)
 	          	.height(200)
 	          	.x(d3.scaleBand().domain(grouptipObjtDim))
 	          	.xUnits(dc.units.ordinal)
@@ -332,32 +267,28 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
 	          	.dimension(tipObjtDim)
 	          	.group(grouptipObjtDim)
 	          	.ordering(function(d) { return -d.value })
-	          	.renderlet(function (chart) {
-	                chart.selectAll("g.x text")
-	                .attr('transform', "rotate(-6)");
-	            })
-	          .elasticY(true);
+	          	.elasticY(true);
 	vis5.yAxis().tickFormat(d3.format(".2s"));
 	//---------------------------------------------//
 	// criação da div que contém o Título e Subtítulo do Mapa. 
- var info = L.control();
-  info.onAdd = function (mymap) {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-  };
-  info.update = function (props) {
-    this._div.innerHTML = '<h4>Nº de Solicitações</h4>' +  (props ?'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+ 	var info = L.control();
+  	info.onAdd = function (mymap) {
+    	this._div = L.DomUtil.create('div', 'info');
+    	this.update();
+    	return this._div;
+  	};
+  	info.update = function (props) {
+    	this._div.innerHTML = '<h4>Nº de Solicitações</h4>' +  (props ?'<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
         : 'Por Município');
-  };
-  info.addTo(mymap);
-  // Fim da criação da div que contém o Título e Subtítulo do Mapa.
+  	};
+  	info.addTo(mymap);
+  	// Fim da criação da div que contém o Título e Subtítulo do Mapa.
 
-  // criação da div que contém a legenda do Mapa.
-  var legend = L.control({position: 'bottomright'});
+  	// criação da div que contém a legenda do Mapa.
+  	var legend = L.control({position: 'bottomright'});
     legend.onAdd = function (mymap) {
 
-      var div = L.DomUtil.create('div', 'info legend'),
+    var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 5, 50, 100, 500, 900, 5000],
         labels = [];
 
@@ -367,25 +298,24 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
       return div;
     };
     legend.addTo(mymap);
-  updateMap(data);
-  vis1.on('filtered', function(chart, filter) {
-    updateMap(cargDim.top(Infinity));
-  });
-  vis2.on('filtered', function(chart, filter) {
-    updateMap(decsDim.top(Infinity));
-  });
-  vis3.on('filtered', function(chart, filter) {
-    updateMap(gereDim.top(Infinity));
-  });
-  vis5.on('filtered', function(chart, filter) {
-    updateMap(tipObjtDim.top(Infinity));
-  });
-  vis8.on('filtered', function(chart, filter) {
-    updateMap(mesDim.top(Infinity));
-  });
-  vis18.on('filtered', function(chart, filter) {
-    updateMap(ufDim.top(Infinity));
-  });
-  dc.renderAll();
+  	updateMap(data);
+  	vis1.on('filtered', function(chart, filter) {
+    	updateMap(cargDim.top(Infinity));
+	});
+	vis2.on('filtered', function(chart, filter) {
+	    updateMap(decsDim.top(Infinity));
+	});
+	vis3.on('filtered', function(chart, filter) {
+	    updateMap(gereDim.top(Infinity));
+	});
+	vis5.on('filtered', function(chart, filter) {
+	    updateMap(tipObjtDim.top(Infinity));
+	});
+	vis8.on('filtered', function(chart, filter) {
+	    updateMap(mesDim.top(Infinity));
+	});
+	vis18.on('filtered', function(chart, filter) {
+	    updateMap(ufDim.top(Infinity));
+	});
+	dc.renderAll();
 });
-

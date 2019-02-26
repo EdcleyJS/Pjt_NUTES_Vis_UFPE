@@ -1,6 +1,4 @@
 function onChange(selc){
-    //console.log(selc);
-    //chart.filter([["apple","lemon","orange"]]);
     if(selc == ""){
     	munDim.filter(null);
     }else{
@@ -9,4 +7,3 @@ function onChange(selc){
     updateMap(munDim.top(Infinity));
     dc.renderAll();
  }
- 
