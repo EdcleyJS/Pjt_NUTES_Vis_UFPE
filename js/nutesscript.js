@@ -1,3 +1,17 @@
+var cidades=["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","AGUAS BELAS","ALAGOINHA","ALTINHO","ARACOIABA","ARARIPINA","ARCOVERDE","BARRA DE GUABIRABA","BARBALHA","BARREIROS","BELO JARDIM","BEZERROS","BODOCO","BREJINHO","CABO DE SANTO AGOSTINHO","CABROBO","CAMARAGIBE","CAMUTANGA","CARNAIBA","CARUARU","CATENDE","CHA GRANDE","CONDADO","CUSTODIA","DORMENTES","FERREIROS","FLORESTA","GARANHUNS","GLORIA DO GOITA","GOIANA","IBIMIRIM","IBIRAJUBA","IGARASSU","ILHA DE ITAMARACA","INGAZEIRA","IPOJUCA","IPUBI","ITAMBE","JABOATAO DOS GUARARAPES","JUAZEIRO","JUREMA","LAGOA DO CARRO","LAGOA GRANDE","LAJEDO","LIMOEIRO","MACAPARANA","OLINDA","OURICURI","PALMEIRINA","PARNAMIRIM","PASSIRA","PATOS","PAUDALHO","PAULISTA","PESQUEIRA","PETROLANDIA","PETROLINA","POCAO","PRIMAVERA","RECIFE","SALGUEIRO","SANHARO","SANTA FILOMENA","SANTA MARIA DA BOA VISTA","SAO BENEDITO DO SUL","SAO CAITANO","SERRA TALHADA","SERRITA","SERTANIA","SURUBIM","TABIRA","TACAIMBO","TAQUARITINGA DO NORTE","TIMBAUBA","TRIUNFO","TUPARETAMA"];
+select = document.getElementById('opcoes');
+var opt = document.createElement('option');
+  opt.value = "";
+  opt.innerHTML = "SELECIONE";
+  select.appendChild(opt);
+for (var i =0; i <cidades.length; i++) {
+  var opt = document.createElement('option');
+  opt.value = cidades[i];
+    opt.innerHTML = cidades[i];
+    select.appendChild(opt);
+    //console.log(opt);
+}
+
 var dadosE;
 var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
 
@@ -42,9 +56,13 @@ function updateMap(data){
     filter: function(feature) {
       var aux= foldToASCII(feature.properties.name).toUpperCase();
       for (i = 0; i < data.length; i++) {
-        if(aux == data[i].MUNICÍPIO){
-          return true;
+        if(data[i].MUNICÍPIO!=null){
+          if(aux == data[i].MUNICÍPIO.toUpperCase()){
+            console.log(data[i].MUNICÍPIO.toUpperCase());
+            return true;
+          }
         }
+        
       }
     },style: function(feature){
       //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
@@ -228,6 +246,7 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
 
   });
   groupmunDim= munDim.group();
+  console.log(groupmunDim.all());
   //---------------------------------------------//
 
   //Dimensão MUNICIPIO TELECONSULTOR

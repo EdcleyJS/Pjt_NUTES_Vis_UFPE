@@ -1,3 +1,17 @@
+var cidades=["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","ARCOVERDE","BARRA DE GUABIRABA","BELO JARDIM","BOM JARDIM","CARNAIBA","EXU","FEIRA NOVA","FERREIROS","GARANHUNS","GOIANA","GRANITO","IBIRAJUBA","IGARASSU","JATOBA","JUREMA","LAGOA DO CARRO","LAJEDO","LIMOEIRO","OLIVEDOS","OURICURI","PAULO AFONSO","PASSIRA","PETROLANDIA","PRIMAVERA","RECIFE","SALGUEIRO","SAO BENTO DO UNA","SERRA TALHADA","SERRITA","TACARATU","TUPARETAMA"];
+select = document.getElementById('opcoes');
+var opt = document.createElement('option');
+  opt.value = "";
+  opt.innerHTML = "SELECIONE";
+  select.appendChild(opt);
+for (var i =0; i <cidades.length; i++) {
+  var opt = document.createElement('option');
+  opt.value = cidades[i];
+    opt.innerHTML = cidades[i];
+    select.appendChild(opt);
+    //console.log(opt);
+}
+
 var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -38,10 +52,12 @@ function updateMap(data){
   },{
     filter: function(feature) {
       var aux= foldToASCII(feature.properties.name).toUpperCase();
-      for (i = 0; i < data.length; i++) {
-        if(aux == data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]){
-          //console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]);
-          return true;
+      for (i = 0; i < data.length; i++){
+        if(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"]!=null){
+          if(aux == data[i]["MUNCÍPIO RESPONSÁVEL EXAME"].toUpperCase()){
+            console.log(data[i]["MUNCÍPIO RESPONSÁVEL EXAME"].toUpperCase());
+            return true;
+          }
         }
       }
     },style: function(feature){
@@ -140,7 +156,12 @@ d3.json("./TeleassistenciaDB/Telediagn%F3stico%20do%20ECG.json", function(error,
       }
     
   }
-
+  
+  munrespexame= cf.dimension(function(d) {
+    return d["MUNCÍPIO RESPONSÁVEL EXAME"];
+  });
+  GRUPOmunrespexame= munrespexame.group();
+  console.log(GRUPOmunrespexame.all());
   //Dimensão AREA DE TELECONSULTORIA
   var vis10,areaTelDim,groupareaTelDim;
   areaTelDim = cf.dimension(function(d) {

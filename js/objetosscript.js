@@ -1,3 +1,36 @@
+var cidades= ["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","ALTINHO","ARACOIABA","ARARIPINA","ARCOVERDE","BARREIROS","BEZERROS","BOM JARDIM","BONITO","BREJINHO","CABO DE SANTO AGOSTINHO","CABROBO","CAMARAGIBE","CAMUTANGA","CARPINA","CARUARU","CASINHAS","CATENDE","CEDRO","CHA DE ALEGRIA","CONDADO","CORTES","CUSTODIA","DORMENTES","ESCADA","FEIRA NOVA","FERREIROS","FLORESTA","GAMELEIRA","GARANHUNS","GLORIA DO GOITA","GOIANA","GRAVATA","IBIMIRIM","IGARASSU","ILHA DE ITAMARACA","INAJA","INGAZEIRA","IPOJUCA","IPUBI","ITAIBA","ITAMBE","ITAPETIM","ITAPISSUMA","JABOATAO DOS GUARARAPES","JUAZEIRO","JUREMA","LAGOA DO CARRO","LAGOA DO ITAENGA","LAGOA GRANDE","LAJEDO","LIMOEIRO","MACHADOS","MORENO","NAZARE DA MATA","OLINDA","OURICURI","PALMARES","PASSIRA","PAUDALHO","PAULISTA","PESQUEIRA","PETROLANDIA","PETROLINA","POMBOS","PRIMAVERA","RECIFE","RIBEIRAO","SALGUEIRO","SALOA","SANHARO","SANTA CRUZ DA BAIXA VERDE","SANTA FILOMENA","SANTA MARIA DA BOA VISTA","SAO BENEDITO DO SUL","SAO JOSE DA COROA GRANDE","SAO JOSE DO BELMONTE","SAO JOSE DO EGITO","SAO LOURENCO DA MATA","SAO VICENTE FERRER","SERRA TALHADA","SURUBIM","TABIRA","TAMANDARE","TAQUARITINGA DO NORTE","TIMBAUBA","TRINDADE","TRIUNFO","TUPARETAMA","VICENCIA","VITORIA DE SANTO ANTAO"];
+select = document.getElementById('opcoes');
+var opt = document.createElement('option');
+	opt.value = "";
+    opt.innerHTML = "SELECIONE";
+   	select.appendChild(opt);
+for (var i =0; i <cidades.length; i++) {
+	var opt = document.createElement('option');
+	opt.value = cidades[i];
+    opt.innerHTML = cidades[i];
+   	select.appendChild(opt);
+    //console.log(opt);
+}
+function retira_acentos(str) {
+	com_acento = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝŔÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿŕ";
+
+	sem_acento = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYRsBaaaaaaaceeeeiiiionoooooouuuuybyr";
+    novastr="";
+    for(i=0; i<str.length; i++) {
+        troca=false;
+        for (a=0; a<com_acento.length; a++) {
+            if (str.substr(i,1)==com_acento.substr(a,1)) {
+                novastr+=sem_acento.substr(a,1);
+                troca=true;
+                break;
+            }
+        }
+        if (troca==false) {
+            novastr+=str.substr(i,1);
+        }
+    }
+    return novastr;
+}  
 var mymap = L.map('vis4').setView([-8.462965,-37.7451021], 7);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -41,13 +74,14 @@ function updateMap(data){
   },{
     filter: function(feature) {
       var aux= foldToASCII(feature.properties.name).toUpperCase();
+
       for (i = 0; i < data.length; i++) {
       	if(data[i].MUNICÍPIO!=null){
       		if(aux == data[i].MUNICÍPIO.toUpperCase()){
+      			//console.log(data[i].UF);
+      			//console.log(data[i].MUNICÍPIO.toUpperCase());
 	          return true;
 	        }
-      	}else{
-      		return false;
       	}
         
       }
@@ -205,6 +239,44 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
 		}
 	});
 	groupmunDim= munDim.group();
+	var p=[];
+	//console.log(groupmunDim.all()[1].key);
+	////console.log(groupmunDim.getElementById(0));
+	for (var i=0; i<groupmunDim.size(); i++) {
+		//console.log("ok");
+	    p.push(""+groupmunDim.all()[i].key);
+	    
+	}
+	//console.log(p);
+	function arr_diff (a1, a2) {
+
+    var a = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+    }
+    for (var k in a) {
+        diff.push(k);
+    }
+	    return diff;
+	}
+	//console.log(arr_diff(cidades,p));
+	/*b = {};
+	for (var i = 0; i < p; i++) {
+	    b[a[i]] = a[i];
+	}
+	arr = [];
+	for (var key in b) {
+	    arr.push(key);
+	}*/
 	//---------------------------------------------//
 
 	//Dimensão MES
@@ -316,3 +388,4 @@ d3.json("./TeleeducacaoDB/Objetos.json", function(error,data) {
   });
   dc.renderAll();
 });
+
