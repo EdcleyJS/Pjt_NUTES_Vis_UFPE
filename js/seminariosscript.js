@@ -4,64 +4,15 @@ d3.json("./TeleeducacaoDB/Seminarios.json", function(error,data) {
 
 	function getTops(source_group,option) {
 	  	switch(option){
-	  		case 15:
-	  			return {
-				    all: function () {
-				        return source_group.top(15);
-				    }
-				};
-	  		break;
-	  		case 12:
-	  			return {
-				    all: function () {
-				        return source_group.top(12);
-				    }
-				};
-	  		break;
-	  		case 10:
-	  			return {
-				    all: function () {
-				        return source_group.top(10);
-				    }
-				};
-	  		break;
-	  		case 8:
-	  			return {
-				    all: function () {
-				        return source_group.top(8);
-				    }
-				};
-	  		break;
-	  		case 7:
-	  			return {
-				    all: function () {
-				        return source_group.top(7);
-				    }
-				};
-	  		break;
-	  		case 6:
-	  			return {
-				    all: function () {
-				        return source_group.top(6);
-				    }
-				};
-	  		break;
-	  		case 5:
-	  			return {
-				    all: function () {
-				        return source_group.top(5);
-				    }
-				};
-	  		break;
-	  		case 2:
-	  			return {
-				    all: function () {
-				        return source_group.top(2);
-				    }
-				};
-	  		break;
+	  		case 15:return {all: function () {return source_group.top(15);}};break;
+	  		case 12:return {all: function () {return source_group.top(12);}};break;
+	  		case 10:return {all: function () {return source_group.top(10);}};break;
+	  		case 8:return {all: function () {return source_group.top(8);}};break;
+	  		case 7:return {all: function () {return source_group.top(7);}};break;
+	  		case 6:return {all: function () {return source_group.top(6);}};break;
+	  		case 5:return {all: function () {return source_group.top(5);}};break;
+	  		case 2:return {all: function () {return source_group.top(2);}};break;
 	  	}
-		
 	}
 	//Dimensão CANAL DE COMUNICAÇÃO
 	var vis1,cnlComDim,groupcnlComDim;

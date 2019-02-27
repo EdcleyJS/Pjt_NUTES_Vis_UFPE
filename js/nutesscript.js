@@ -1,18 +1,8 @@
-var cidades=["ABREU E LIMA","AFOGADOS DA INGAZEIRA","AFRANIO","AGUAS BELAS","ALAGOINHA","ALTINHO","ARACOIABA","ARARIPINA","ARCOVERDE","BARRA DE GUABIRABA","BARBALHA","BARREIROS","BELO JARDIM","BEZERROS","BODOCO","BREJINHO","CABO DE SANTO AGOSTINHO","CABROBO","CAMARAGIBE","CAMUTANGA","CARNAIBA","CARUARU","CATENDE","CHA GRANDE","CONDADO","CUSTODIA","DORMENTES","FERREIROS","FLORESTA","GARANHUNS","GLORIA DO GOITA","GOIANA","IBIMIRIM","IBIRAJUBA","IGARASSU","ILHA DE ITAMARACA","INGAZEIRA","IPOJUCA","IPUBI","ITAMBE","JABOATAO DOS GUARARAPES","JUAZEIRO","JUREMA","LAGOA DO CARRO","LAGOA GRANDE","LAJEDO","LIMOEIRO","MACAPARANA","OLINDA","OURICURI","PALMEIRINA","PARNAMIRIM","PASSIRA","PATOS","PAUDALHO","PAULISTA","PESQUEIRA","PETROLANDIA","PETROLINA","POCAO","PRIMAVERA","RECIFE","SALGUEIRO","SANHARO","SANTA FILOMENA","SANTA MARIA DA BOA VISTA","SAO BENEDITO DO SUL","SAO CAITANO","SERRA TALHADA","SERRITA","SERTANIA","SURUBIM","TABIRA","TACAIMBO","TAQUARITINGA DO NORTE","TIMBAUBA","TRIUNFO","TUPARETAMA"];
-select = document.getElementById('opcoes');
-var opt = document.createElement('option');
-  opt.value = "";
-  opt.innerHTML = "SELECIONE";
-  select.appendChild(opt);
-for (var i =0; i <cidades.length; i++) {
-  var opt = document.createElement('option');
-  opt.value = cidades[i];
-    opt.innerHTML = cidades[i];
-    select.appendChild(opt);
-}
-
-var dadosE;
 var mymap = L.map('vis6').setView([-8.462965,-37.7451021], 7);
+var zoom,a,Leste,Oeste,Norte,Sul;
+var vis6,munDim,groupmunDim;
+var dadosE;var opt=[];
+var dados,geoLayer;
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -23,21 +13,12 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 
 //Escala de cores para o mapa
 function color(d) {
-    return d > 400 ? '#034e7b' :
-           d > 200  ? '#0570b0' :
-           d > 100  ? '#3690c0' :
-           d > 40  ? '#74a9cf' :
-           d > 15   ? '#a6bddb' :
-           d > 3   ? '#d0d1e6' :
-           d > 0  ? '#f1eef6':
-                      '#f1eef6';
+  return d > 600 ? '#034e7b' : d > 300  ? '#0570b0' : d > 150  ? '#3690c0' : d > 50  ? '#74a9cf' : d > 15   ? '#a6bddb' : d > 3   ? '#d0d1e6' : d > 0  ? '#f1eef6': '#f1eef6';
 }
-var dados,geoLayer;
 
 d3.json("./geojson/pe.json",function(error,dadoss){
   dados=dadoss;
 }); 
-var vis6,munDim,groupmunDim;
 
 function updateMap(data){
     if(geoLayer!= null){
@@ -53,21 +34,25 @@ function updateMap(data){
     features: geomDimension.top(Infinity),
   },{
     filter: function(feature) {
+      var bbox=[];
+      bbox=turf.bbox(feature);
+      a= mymap.getBounds();
+      Leste= a.getEast();Oeste= a.getWest();Norte= a.getNorth();Sul=a.getSouth();
       var aux= foldToASCII(feature.properties.name).toUpperCase();
-      for (i = 0; i < data.length; i++) {
-        if(data[i].MUNICÍPIO!=null){
-          if(aux == data[i].MUNICÍPIO.toUpperCase()){
-            
-            return true;
+      if(bbox[0]>Oeste && bbox[2]<Leste && bbox[1]>Sul && bbox[3]<Norte){
+        for (i = 0; i < data.length; i++) {
+          if(data[i].MUNICÍPIO!=null){
+            if(aux == data[i].MUNICÍPIO.toUpperCase()){
+              opt.push(data[i].MUNICÍPIO.toUpperCase()); 
+              return true;
+            }
           }
         }
-        
       }
     },style: function(feature){
       //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
       for (i = 0; i < groupmunDim.all().length; i++) {
         if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
-          
           return {
             weight: 0.5,
             opacity: 1,
@@ -79,8 +64,75 @@ function updateMap(data){
       } 
   },
   onEachFeature: function (feature, layer) {
-        //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
-        for (i = 0; i < groupmunDim.all().length; i++) {
+    //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
+      for (i = 0; i < groupmunDim.all().length; i++) {
+        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
+          layer.bindPopup(feature.properties.name+": "+groupmunDim.all()[i].value+" Solicitações");
+        }
+      }
+    }
+  }).addTo(mymap);
+
+  var select = document.getElementById('opcoes');
+  select.options.length = 0;
+  opt.sort();
+  var opthtml = document.createElement('option');
+  opthtml.value = "";
+  opthtml.innerHTML = "NENHUMA";
+  select.appendChild(opthtml);
+  for (var i = 0; i < opt.length; i++) {
+    opthtml = document.createElement('option');
+    opthtml.value = opt[i];
+    opthtml.innerHTML = opt[i];
+    select.appendChild(opthtml);
+  }
+  opt=[];
+}
+function updateOnlyMap(data){
+    if(geoLayer!= null){
+      geoLayer.clearLayers();
+    }
+  cfg = crossfilter(dados.features);
+  //Criação das Dimensões e Grupos com base no crossfilter.
+  geomDimension = cfg.dimension(function(d) {
+    return d.geometry;
+  });
+  geoLayer= L.geoJson({
+    type: 'FeatureCollection',
+    features: geomDimension.top(Infinity),
+  },{
+    filter: function(feature) {
+      var bbox=[];
+      bbox=turf.bbox(feature);
+      a= mymap.getBounds();
+      Leste= a.getEast();Oeste= a.getWest();Norte= a.getNorth();Sul=a.getSouth();
+      var aux= foldToASCII(feature.properties.name).toUpperCase();
+      if(bbox[0]>Oeste && bbox[2]<Leste && bbox[1]>Sul && bbox[3]<Norte){
+        for (i = 0; i < data.length; i++) {
+          if(data[i].MUNICÍPIO!=null){
+            if(aux == data[i].MUNICÍPIO.toUpperCase()){
+                return true;
+            }
+          }
+        }
+      }
+    },style: function(feature){
+    //Style para definir configurações dos polígonos a serem desenhados e colorir com base na escala criada.
+      for (i = 0; i < groupmunDim.all().length; i++) {
+        if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
+          return {
+            weight: 0.5,
+            opacity: 1,
+            fillColor: color(groupmunDim.all()[i].value),
+            color: 'black',
+            fillOpacity: 0.9
+          };
+        }
+      } 
+  },
+  onEachFeature: function (feature, layer) {
+    //Criação do Popup de cada feature/polígono contendo o nome do proprietário e o cep de localização do edíficio/lote.
+      for (i = 0; i < groupmunDim.all().length; i++) {
         if(groupmunDim.all()[i].key == foldToASCII(feature.properties.name).toUpperCase()){
           layer.bindPopup(feature.properties.name+": "+groupmunDim.all()[i].value+" Solicitações");
         }
@@ -88,77 +140,20 @@ function updateMap(data){
     }
   }).addTo(mymap);
 }
-
 var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,data) {
-  
   cf = crossfilter(data);
   var origemDim,canalDim,groupcanalDim,grouporigemDim;
   function getTops(source_group,option) {
-      switch(option){
-        case 15:
-          return {
-            all: function () {
-                return source_group.top(15);
-            }
-        };
-        break;
-        case 12:
-          return {
-            all: function () {
-                return source_group.top(12);
-            }
-        };
-        break;
-        case 10:
-          return {
-            all: function () {
-                return source_group.top(10);
-            }
-        };
-        break;
-        case 9:
-          return {
-            all: function () {
-                return source_group.top(9);
-            }
-        };
-        break;
-        case 8:
-          return {
-            all: function () {
-                return source_group.top(8);
-            }
-        };
-        break;
-        case 7:
-          return {
-            all: function () {
-                return source_group.top(7);
-            }
-        };
-        break;
-        case 6:
-          return {
-            all: function () {
-                return source_group.top(6);
-            }
-        };
-        break;
-        case 5:
-          return {
-            all: function () {
-                return source_group.top(5);
-            }
-        };
-        break;
-        case 2:
-          return {
-            all: function () {
-                return source_group.top(2);
-            }
-        };
-        break;
-      }
+    switch(option){
+      case 15: return { all: function () { return source_group.top(15);}};break;
+      case 12:return {all: function () {return source_group.top(12);}};break;
+      case 10:return {all: function () {return source_group.top(10);}};break;
+      case 8:return {all: function () {return source_group.top(8);}};break;
+      case 7:return {all: function () {return source_group.top(7);}};break;
+      case 6:return {all: function () {return source_group.top(6);}};break;
+      case 5:return {all: function () {return source_group.top(5);}};break;
+      case 2:return {all: function () {return source_group.top(2);}};break;
+    }
   }
   //Dimensão ORIGEM
   origemDim = cf.dimension(function(d) {
@@ -245,7 +240,6 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
 
   });
   groupmunDim= munDim.group();
-  
   //---------------------------------------------//
 
   //Dimensão MUNICIPIO TELECONSULTOR
@@ -298,9 +292,14 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   vis9 = dc.rowChart("#vis9").width(450)
           .height(200)
           .x(d3.scaleBand().domain(groupnaturezaDim))
+          //.xUnits(dc.units.ordinal)
+          //.brushOn(true)
+          //.yAxisLabel("Quantidade")
           .dimension(naturezaDim)
           .group(groupnaturezaDim)
+          //.ordering(function(d) { return -d.value })
           .elasticX(true);
+  //vis9.yAxis().tickFormat(d3.format(".2s"));
   //---------------------------------------------//
 
   //Dimensão OCUPAÇãO DO SOLICITANTE
@@ -451,8 +450,7 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
       return foldToASCII(d["AREA DE TELECONSULTORIA"]).toUpperCase();
     }else{
       return d["AREA DE TELECONSULTORIA"];
-    }
-    
+    }  
   });
   groupareaTelDim= areaTelDim.group();
   groupareaTelDim= getTops(groupareaTelDim,12);
@@ -464,8 +462,8 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
           .elasticX(true);
   //---------------------------------------------//
   
- // criação da div que contém o Título e Subtítulo do Mapa. 
- var info = L.control();
+  // criação da div que contém o Título e Subtítulo do Mapa. 
+  var info = L.control();
   info.onAdd = function (mymap) {
     this._div = L.DomUtil.create('div', 'info');
     this.update();
@@ -481,19 +479,19 @@ var nova =d3.json("./TeleassistenciaDB/Teleconsultorias.json", function(error,da
   // criação da div que contém a legenda do Mapa.
   var legend = L.control({position: 'bottomright'});
     legend.onAdd = function (mymap) {
-
       var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 3, 15, 40, 100, 200, 400],
         labels = [];
-
       for (var i = 0; i < grades.length; i++) {
           div.innerHTML +='<i style="color:'+color(grades[i])+'; background:'+color(grades[i])+'"></i>'+">"+grades[i] +'</br>';
         }
       return div;
     };
-    legend.addTo(mymap);
-  updateMap(data);
-
+  legend.addTo(mymap);
+  updateMap(munDim.top(Infinity));
+  mymap.on('moveend', function() {
+    updateOnlyMap(munDim.top(Infinity));
+  });
   vis1.on('filtered', function(chart, filter) {
     updateMap(origemDim.top(Infinity));
   });

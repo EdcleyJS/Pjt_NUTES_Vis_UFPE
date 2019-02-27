@@ -8,22 +8,23 @@
 		<link rel="stylesheet" href="./css/projeto.css">
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
 		<link rel="stylesheet" href="./css/leaflet.css"/>
-		<link rel="icon" href="http://www.nutes.ufpe.br/wp-content/uploads/2016/10/cropped-logo_nutes-32x32.png" sizes="32x32">
+		<link rel="icon" href="./img/cropped-logo_nutes-32x32.png" sizes="32x32">
 		<title>TeleEducação Objetos</title>
-		<script src="./js/jquery.min.js"></script>
-		<script src="./js/d3.v4.min.js"></script>
-		<script src='./js/crossfilter.js'></script>
-		<script src='./js/dc.js'></script>
-		<script src='./js/dc.graph.js'></script>
-		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/color-mixin.js"></script>
-		<script src="./js/leaflet-pip.js"></script>
-	    <script src="./js/leaflet.js"></script>
-	    <script src='./js/dc.graph.js'></script>
-	    <script src='./js/dc.leaflet.js'></script>
-		<script src="https://cdn.jsdelivr.net/npm/colorbrewer@1.0.0/colorbrewer.js"></script>
-		<script src="https://rawgit.com/mplatt/fold-to-ascii/eae6030cc155a59fe7859666b4fb45171c67a17f/fold-to-ascii.js"></script>
-		<script type="text/javascript" src="https://unpkg.com/default-passive-events"></script>
+		<script type="text/javascript" src="./js/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/d3.v4.min.js"></script>
+		<script type="text/javascript" src='./js/crossfilter.js'></script>
+		<script type="text/javascript" src='./js/dc.js'></script>
+		<script type="text/javascript" src='./js/dc.graph.js'></script>
+		<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="./js/color-mixin.js"></script>
+		<script type="text/javascript" src="./js/leaflet-pip.js"></script>
+	    <script type="text/javascript" src="./js/leaflet.js"></script>
+	    <script type="text/javascript" src='./js/dc.graph.js'></script>
+	    <script type="text/javascript" src='./js/dc.leaflet.js'></script>
+		<script type="text/javascript" src="./js/colorbrewer.js"></script>
+		<script type="text/javascript" src="./js/fold-to-ascii.js"></script>
+		<script type="text/javascript" src="./js/index.js"></script>
+		<script type="text/javascript" src='./js/turf.min.js'></script>
 	</head>
 	<body background="./img/logo_nutes.png" >
 		<div class="container">
@@ -38,14 +39,20 @@
 					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> </div>
 					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 panel panel-default">
 					<b>Filtro por Cidade:</b>
-					<select title="Pick a option" class="selectpicker" id="opcoes" onchange="onChange(this.value)"></select>
+					<select title="Pick one" class="selectpicker" id="opcoes" onmouseleave="onChange(this.value)">
+					</select>
 					<div id="vis4" style="height:280px;"></div>
 				</div>
 				</div>
 			 	<ul class="nav nav-tabs">
-				  	<li class="active" style="background: white"><a href="#tab1"  data-toggle="tab">UF e MÊS</a></li>
-				  	<li style="background: white"><a href="#tab2"  data-toggle="tab">GERES RESPONSÁVEL</a></li>
-				  	<li style="background: white"><a href="#tab3"  data-toggle="tab">TIPO DE OBJETO</a></li>
+				  	<li class="active" style="background: white">
+				  		<a href="#tab1"  data-toggle="tab">UF e MÊS</a></li>
+				  	<li style="background: white">
+				  		<a href="#tab2"  data-toggle="tab">GERES RESPONSÁVEL</a>
+				  	</li>
+				  	<li style="background: white">
+				  		<a href="#tab3"  data-toggle="tab">TIPO DE OBJETO</a>
+				  	</li>
 				</ul>
 				<div class="tab-content ">
 	                <div class="tab-pane active" id="tab1">
@@ -81,7 +88,6 @@
 					<h4>CARGO</h4>
 					<div id="vis1"></div>
 				</div>
-				
 			</div>
 		</div>
 		<nav aria-label="..." style="text-align: center;">
@@ -89,9 +95,15 @@
 			    <li class="page-item">
 			      <a class="page-link" href="./index.html" tabindex="-1">Tele Atendimento</a>
 			    </li>
-			    <li class="page-item"><a class="page-link" href="./Telediagnostico_ECG.html">Tele Diagnóstico - ECG</a></li>
-			    <li class="page-item"><a class="page-link" href="./Seminarios.html">Tele Educação Seminários</a></li>
-			    <li class="page-item disabled"><a class="page-link" href="./Objetos.html">Tele Educação - Objetos</a></li>
+			    <li class="page-item">
+			    	<a class="page-link" href="./Telediagnostico_ECG.html">Tele Diagnóstico - ECG</a>
+			    </li>
+			    <li class="page-item">
+			    	<a class="page-link" href="./Seminarios.html">Tele Educação Seminários</a>
+			    </li>
+			    <li class="page-item disabled">
+			    	<a class="page-link" href="./Objetos.html">Tele Educação - Objetos</a>
+			    </li>
 			</ul>
 		</nav>
 	</body>
